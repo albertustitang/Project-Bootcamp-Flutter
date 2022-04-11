@@ -1,8 +1,11 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:taniku/View/Hasil.dart';
 import 'package:taniku/ViewModel/news_viewmodel.dart';
+import 'package:taniku/View/bottom_navigation.dart';
 
 class NewsScreen extends StatefulWidget {
   const NewsScreen({Key? key}) : super(key: key);
@@ -33,7 +36,7 @@ class _NewsScreenState extends State<NewsScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             // ListView Horizontal
-                            const Text("List Horizontal",
+                            const Text("News Update",
                               style: TextStyle(fontWeight: FontWeight.bold,),),
                             const SizedBox(height: 16,),
                             SizedBox(
@@ -46,16 +49,18 @@ class _NewsScreenState extends State<NewsScreen> {
                                   itemBuilder: (context, index) {
                                     return InkWell(
                                       onTap: () {
-                                        Navigator.push(context,MaterialPageRoute(builder: (context) => Hasil(value: viewModel.listNews[index].newsTitle.toString(),
+                                        Navigator.push(context,MaterialPageRoute(builder: (context) => Hasil(
+                                            value: viewModel.listNews[index].newsTitle.toString(),
                                             value2: viewModel.listNews[index].newsDate.toString(),
                                             value3: viewModel.listNews[index].newsImage.toString(),
                                             value4: viewModel.listNews[index].author.toString())));
                                         print("data :  ${viewModel.listNews[index].newsTitle.toString()}");
                                       },
                                       child: Container(
-                                        width: 200,
+                                        width: 175,
                                         alignment: Alignment.center,
                                         child: Card(
+                                          color: Colors.blueGrey,
                                           child: Container(
                                             width: double.infinity,
                                             margin: const EdgeInsets.all(12),
@@ -68,8 +73,8 @@ class _NewsScreenState extends State<NewsScreen> {
                                                   children: [
                                                     Image.network(
                                                       viewModel.listNews[index].newsImage.toString(),
-                                                      width: 70,
-                                                      height: 70,),
+                                                      width: 90,
+                                                      height: 80,),
                                                     const SizedBox(height: 8,),
                                                     Text(
                                                       viewModel.listNews[index].newsTitle.toString(),
@@ -94,114 +99,109 @@ class _NewsScreenState extends State<NewsScreen> {
                                   }
                               ),
                             ),
-
-                            // SizedBox(height: 16,),
-                            // const Text("List Vertical", style: TextStyle(fontWeight: FontWeight.bold),),
-                            // SizedBox(height: 16,),
-                            // ListView.builder(
-                            //   shrinkWrap: true,
-                            //   physics: const NeverScrollableScrollPhysics(),
-                            //   itemBuilder: (context, index) {
-                            //     return InkWell(
-                            //       onTap: () {
-                            //         Navigator.push(context,MaterialPageRoute(builder: (context) => HasilColor(value: viewModel.datacolor[index].name.toString(),
-                            //             value2: viewModel.datacolor[index].year.toString(),
-                            //             value3: viewModel.datacolor[index].color.toString())));
-                            //         print('data : ${viewModel.datacolor[index].name.toString()}');
-                            //       },
-                            //       child: Card(
-                            //         child: Container(
-                            //           margin: const EdgeInsets.all(8),
-                            //           child: Row(
-                            //             children: [
-                            //               Container(
-                            //                 height: 70,
-                            //                 width: 70,
-                            //                 decoration: BoxDecoration(
-                            //                   borderRadius: BorderRadius.all(Radius.circular(50)),
-                            //                   color: HexColor(viewModel.datacolor[index].color.toString()),
-                            //                 ),
-                            //               ),
-                            //               SizedBox(width: 16,),
-                            //               Column(
-                            //                 crossAxisAlignment: CrossAxisAlignment.start,
-                            //                 children: [
-                            //                   Text(viewModel.datacolor[index].name.toString()),
-                            //                   const SizedBox(height: 8,),
-                            //                   Text(viewModel.datacolor[index].year.toString()),
-                            //                   const SizedBox(height: 8,),
-                            //                 ],
-                            //               )
-                            //             ],
-                            //           ),
-                            //         ),
-                            //       ),
-                            //     );
-                            //   },
-                            //   itemCount: viewModel.datacolor.length,
-                            // ),
-                            // const SizedBox(height: 16,),
-                            // Text("List GridView", style: TextStyle(fontWeight: FontWeight.bold),),
-                            // const SizedBox(height: 16),
-                            // GridView.builder(
-                            //   shrinkWrap: true,
-                            //   physics: const NeverScrollableScrollPhysics(),
-                            //   itemCount: viewModel.datamovie.length,
-                            //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            //     crossAxisCount: MediaQuery.of(context).orientation ==
-                            //         Orientation.landscape ? 3: 2,
-                            //     crossAxisSpacing: 4,
-                            //     mainAxisSpacing : 4,
-                            //     childAspectRatio: (1 / 1),
-                            //     mainAxisExtent: 300,
-                            //   ),
-                            //   itemBuilder: (context,index,) {
-                            //     return InkWell(
-                            //       onTap: () {
-                            //         Navigator.push(context,MaterialPageRoute(builder: (context) => HasilGrid(value: viewModel.datamovie[index].title.toString(),
-                            //             value2: viewModel.datamovie[index].year.toString(),
-                            //             value3: viewModel.datamovie[index].poster.toString())));
-                            //         print("imdbID : ${viewModel.datamovie[index].imdbID.toString()}");
-                            //         print("Title : ${viewModel.datamovie[index].title.toString()}");
-                            //         print("Year : ${viewModel.datamovie[index].year.toString()}");
-                            //       },
-                            //       child: Container(
-                            //           alignment: Alignment.center,
-                            //           child: Card(
-                            //             child: Container(
-                            //               width: double.infinity,
-                            //               margin: const EdgeInsets.all(12),
-                            //               child: Column(
-                            //                 children: [
-                            //                   Image.network(viewModel.datamovie[index].poster.toString(), width: 70, height: 70,
-                            //                     errorBuilder: (context, error, stackTrace) {
-                            //                       return Container(
-                            //                           width: 80,
-                            //                           height: 80,
-                            //                           alignment: Alignment.center,
-                            //                           child: const Icon(Icons.error_outline, size: 22,)
-                            //                       );
-                            //                     },),
-                            //                   const SizedBox(height: 16,),
-                            //                   Text(viewModel.datamovie[index].title.toString(), style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                            //                   const SizedBox(height: 8,),
-                            //                   Text(viewModel.datamovie[index].year.toString()),
-                            //                   const SizedBox(height: 8,),
-                            //                 ],
-                            //               ),
-                            //             ),
-                            //           )
-                            //       ),
-                            //     );
-                            //   },
-                            // ),
-
+                            SizedBox(height: 16,),
+                            const Text("List Kebun",
+                              style: TextStyle(
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: viewModel.listKebun.length,
+                              itemBuilder: (context, index) {
+                                return InkWell(
+                                  onTap: () {},
+                                  child: Container(
+                                    child: Card(
+                                      child: Container(
+                                        margin: const EdgeInsets.all(8),
+                                        child: SingleChildScrollView(
+                                          child: Column(
+                                            children: [
+                                              Container(
+                                                decoration: const BoxDecoration(
+                                                  color: Colors.green,
+                                                  borderRadius: BorderRadius.only(
+                                                    topLeft: Radius.circular(4),
+                                                    topRight: Radius.circular(4),
+                                                  ),
+                                                ),
+                                                child:
+                                                Row(
+                                                  children: const[
+                                                      Padding(padding: EdgeInsets.all(14),
+                                                      child: Text("Kebun Petani", style:
+                                                        TextStyle(fontSize: 20,
+                                                            fontWeight: FontWeight.bold),
+                                                      )
+                                                      ,)
+                                                  ],
+                                                ),
+                                              ),
+                                              Container(
+                                                margin: const EdgeInsets.all(16),
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    Container(
+                                                      child: Column(
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+                                                          const Text("Luas Kebun", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),),
+                                                          Text(viewModel.listKebun[index].luasKebun.toString(), style:
+                                                          const TextStyle(fontSize: 12),),
+                                                          const SizedBox(height: 8,),
+                                                          const Text("Jumlah Pohon", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),),
+                                                          Text(viewModel.listKebun[index].jumlahPohon.toString(), style:
+                                                          const TextStyle(fontSize: 12),),
+                                                          const SizedBox(height: 8,),
+                                                          const Text("Tahun Tanam", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),),
+                                                          Text(viewModel.listKebun[index].tahunTanamId.toString(), style:
+                                                          const TextStyle(fontSize: 12,),),
+                                                          const SizedBox(height: 8,),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      child: Column(
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+                                                          Text("Lokasi", style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold),),
+                                                          Text("${viewModel.listKebun[index].alamat.toString()},", style:
+                                                          const TextStyle(fontSize: 12, color: Colors.grey),),
+                                                          Text("${viewModel.listKebun[index].kelurahanName.toString()},", style:
+                                                          const TextStyle(fontSize: 12, color: Colors.grey),),
+                                                          Text("${viewModel.listKebun[index].kecamatanName.toString()},", style:
+                                                          const TextStyle(fontSize: 12, color: Colors.grey),),
+                                                          Text("${viewModel.listKebun[index].kabupatenKotaName.toString()},", style:
+                                                          const TextStyle(fontSize: 12, color: Colors.grey),),
+                                                          Text("${viewModel.listKebun[index].provinsiName.toString()},", style:
+                                                          const TextStyle(fontSize: 12, color: Colors.grey),),
+                                                          Text("${viewModel.listKebun[index].kodePos.toString()},", style:
+                                                          const TextStyle(fontSize: 12, color: Colors.grey),),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
                           ],
                         ),
                       )
                   ),
                 );
-              });
+              }
+              );
         },
       ),
     );

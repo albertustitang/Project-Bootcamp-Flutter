@@ -1,62 +1,51 @@
 import 'package:flutter/material.dart';
 
-class Hasil extends StatelessWidget {
+class Hasil extends StatefulWidget {
   String value, value2, value3, value4;
-  Hasil({Key? key, required this.value, required this.value2, required this.value3, required this.value4}) : super(key: key);
+  Hasil(
+      {Key? key,
+        required this.value,
+        required this.value2,
+        required this.value3,
+        required this.value4})
+      : super(key: key);
 
+  @override
+  State<Hasil> createState() => _Hasil();
+}
+
+class _Hasil extends State<Hasil> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-
+        backgroundColor: Color.fromARGB(255, 78, 182, 229),
       ),
       body: SingleChildScrollView(
-        child: Container(
-            margin: EdgeInsets.all(14),
-            child:
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return
-                      Card(
-                        child: Container(
-                          margin: const EdgeInsets.all(8),
-                          child:
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.network(value3, width: 150, height: 150,
-                                  errorBuilder: (context, error, stackTracre){
-                                    return Container(
-                                      width: 70,
-                                      height: 70,
-                                      alignment: Alignment.center,
-                                      child: const Icon(Icons.error_outline, size: 16,),
-                                    );
-                                  }),
-                              const SizedBox(height: 8,),
-                              Text(value2, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                              const SizedBox(height: 8,),
-                              Text(value, style: const TextStyle(fontSize: 16)),
-                              const SizedBox(height: 8,),
-                              Text(value4, style: const TextStyle(fontSize: 16)),
-                              const SizedBox(height: 8,),
-                            ],
-                          ),
-                        ),
-                      );
-                  },
-                  itemCount: 1,
+          child: Column(
+            children: [
+              Container(
+                height: 400,
+                width: 500,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: NetworkImage(widget.value3), fit: BoxFit.fill),
                 ),
-              ],
-            )
-        ),
-      ),
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              Text(widget.value, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
+              const SizedBox(
+                height: 8,
+              ),
+              Text(widget.value2, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
+              const SizedBox(
+                height: 8,
+              ),
+              Text(widget.value4, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),)
+            ],
+          )),
     );
   }
 }

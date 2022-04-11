@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:taniku/Service/local/shared_pref_service.dart';
-import 'package:taniku/Model/response_news_model.dart';
+
 import '../../Model/response_profile_model.dart';
 
 
@@ -16,6 +16,8 @@ class ProfileApi {
   Future<ProfileModel> getListProfile(BuildContext context) async {
     var uri = Uri.parse(baseUrl + "api/niaga/profile/getProfile").replace();
     final tokenLocal = await SharedPreferenceService().getStringSharedPref("token");
+    final user =await SharedPreferenceService().getStringSharedPref("user_id");
+
     Map<String, String> headersToken(String token) {
       return {
         'Content-Type': 'application/json',
@@ -23,7 +25,10 @@ class ProfileApi {
         'Authorization': 'Bearer $token'
       };
     }
-    var _body = jsonEncode({});
+    var _body = jsonEncode({
+      'user_id' : user
+
+    });
     print(tokenLocal);
     print(_body);
     try {

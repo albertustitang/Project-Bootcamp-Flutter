@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:taniku/View/bottom_navigation.dart';
 import 'package:taniku/View/signup_screen.dart';
 
 import '../ViewModel/login_viewmodel.dart';
@@ -34,7 +35,7 @@ class _LoginScreen1State extends State<LoginScreen1> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Image.asset(
-                              "assets/macan.jpg",
+                              "assets/evos.png",
                               width: 200,
                               height: 150,
                             ),
@@ -88,6 +89,7 @@ class _LoginScreen1State extends State<LoginScreen1> {
                                 style: TextButton.styleFrom(
                                     backgroundColor: Color(0xff2196f3)),
                                 onPressed: () {
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>BotNavBar()));
                                   String username = textController.text.toString();
                                   String password = text2Controller.text.toString();
 

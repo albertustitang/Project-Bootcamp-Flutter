@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:taniku/View/bottom_navigation.dart';
 import 'package:taniku/View/login_screen.dart';
 import 'package:taniku/View/news_screen.dart';
+import 'package:taniku/View/profile_screen.dart';
 import 'package:taniku/View/signup_screen.dart';
 import 'package:taniku/View/ui_login1.dart';
 
@@ -21,7 +22,8 @@ class MyApp extends StatelessWidget {
 
         primarySwatch: Colors.blue,
       ),
-      home: const BottomNavigationScreen(),
+      debugShowCheckedModeBanner: false,
+      home: const NewsScreen(),
     );
   }
 }
