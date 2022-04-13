@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:taniku/Model/response_profile_model.dart';
 import 'package:taniku/Model/response_profile_model.dart';
-
 import 'package:taniku/Service/api/profile_api.dart';
 
 

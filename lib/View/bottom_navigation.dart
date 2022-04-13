@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:taniku/View/pengiriman_screen.dart';
 import 'package:taniku/View/profile_screen.dart';
 import 'package:taniku/View/news_screen.dart';
+import 'package:taniku/View/transaksi.dart';
 class BotNavBar extends StatelessWidget {
   const BotNavBar({Key? key}) : super(key: key);
 
@@ -14,8 +16,9 @@ class BotNavBar extends StatelessWidget {
     List<Widget> _buildScreens() {
       return [
         const NewsScreen(),
+        const Transaksi(),
+        const Pengiriman_screen(),
         const ProfileScreen(),
-        // const HomePage(),
         // const HomePage()
       ];
     }
@@ -27,28 +30,28 @@ class BotNavBar extends StatelessWidget {
           title: ("Home"),
           inactiveIcon: const Icon(Icons.home_outlined),
           activeColorPrimary: Colors.white,
-          inactiveColorPrimary: Colors.indigo,
+          inactiveColorPrimary: Colors.grey,
         ),
-        // PersistentBottomNavBarItem(
-        //   icon: const Icon(CupertinoIcons.person_2_fill),
-        //   title: ("Kontak"),
-        //   inactiveIcon: const Icon(CupertinoIcons.person_2),
-        //   activeColorPrimary: Colors.white,
-        //   inactiveColorPrimary: Colors.blueGrey,
-        // ),
-        // PersistentBottomNavBarItem(
-        //   icon: const Icon(CupertinoIcons.envelope_fill),
-        //   title: ("Inbox"),
-        //   inactiveIcon:  const Icon(CupertinoIcons.envelope),
-        //   activeColorPrimary: Colors.white,
-        //   inactiveColorPrimary: Colors.blueGrey,
-        // ),
+        PersistentBottomNavBarItem(
+          icon: const Icon(CupertinoIcons.cart),
+          title: ("Transaksi"),
+          inactiveIcon: const Icon(CupertinoIcons.cart_fill),
+          activeColorPrimary: Colors.white,
+          inactiveColorPrimary: Colors.grey,
+        ),
+        PersistentBottomNavBarItem(
+          icon: const Icon(CupertinoIcons.envelope_fill),
+          title: ("Pengiriman"),
+          inactiveIcon:  const Icon(CupertinoIcons.envelope),
+          activeColorPrimary: Colors.white,
+          inactiveColorPrimary: Colors.grey,
+        ),
         PersistentBottomNavBarItem(
           icon: const Icon(Icons.person),
           title: ("Profil"),
           inactiveIcon: const Icon(Icons.person_outline),
           activeColorPrimary: Colors.white,
-          inactiveColorPrimary: Colors.indigo,
+          inactiveColorPrimary: Colors.grey,
         ),
       ];
     }
@@ -59,7 +62,7 @@ class BotNavBar extends StatelessWidget {
       screens: _buildScreens(),
       items: _navBarsItems(),
       confineInSafeArea: true,
-      backgroundColor: Colors.black, // Default is Colors.white.
+      backgroundColor: Colors.green, // Default is Colors.white.
       handleAndroidBackButtonPress: true, // Default is true.
       resizeToAvoidBottomInset: true, // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
       stateManagement: true, // Default is true.

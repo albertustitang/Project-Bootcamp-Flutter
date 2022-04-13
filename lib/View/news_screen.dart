@@ -7,6 +7,8 @@ import 'package:taniku/View/Hasil.dart';
 import 'package:taniku/ViewModel/news_viewmodel.dart';
 import 'package:taniku/View/bottom_navigation.dart';
 
+import 'kebunDetail.dart';
+
 class NewsScreen extends StatefulWidget {
   const NewsScreen({Key? key}) : super(key: key);
 
@@ -60,7 +62,7 @@ class _NewsScreenState extends State<NewsScreen> {
                                         width: 175,
                                         alignment: Alignment.center,
                                         child: Card(
-                                          color: Colors.blueGrey,
+                                          color: Colors.white,
                                           child: Container(
                                             width: double.infinity,
                                             margin: const EdgeInsets.all(12),
@@ -111,7 +113,11 @@ class _NewsScreenState extends State<NewsScreen> {
                               itemCount: viewModel.listKebun.length,
                               itemBuilder: (context, index) {
                                 return InkWell(
-                                  onTap: () {},
+                                  onTap: () {
+                                    Navigator.push(context,
+                                        MaterialPageRoute(builder: (context) => KebunDetail(value: viewModel.listKebun[index].id.toString(),
+                                    )));
+                                    },
                                   child: Container(
                                     child: Card(
                                       child: Container(
@@ -130,10 +136,10 @@ class _NewsScreenState extends State<NewsScreen> {
                                                 child:
                                                 Row(
                                                   children: const[
-                                                      Padding(padding: EdgeInsets.all(14),
+                                                    Padding(padding: EdgeInsets.all(14),
                                                       child: Text("Kebun Petani", style:
-                                                        TextStyle(fontSize: 20,
-                                                            fontWeight: FontWeight.bold),
+                                                      TextStyle(fontSize: 20,
+                                                          fontWeight: FontWeight.bold),
                                                       )
                                                       ,)
                                                   ],
@@ -201,7 +207,7 @@ class _NewsScreenState extends State<NewsScreen> {
                   ),
                 );
               }
-              );
+          );
         },
       ),
     );

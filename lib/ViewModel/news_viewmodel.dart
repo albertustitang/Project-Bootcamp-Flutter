@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:taniku/Model/response_news_model.dart';
 import 'package:taniku/Service/api/news_api.dart';
+import 'package:taniku/Service/local/shared_pref_service.dart';
 import '../Model/response_listkebun_model.dart';
 
 
@@ -9,13 +10,14 @@ import '../Model/response_listkebun_model.dart';
 
 class NewsViewModel extends ChangeNotifier{
   final _newsApi = NewsApi();
+  final _sharedPref = SharedPreferenceService();
 
   List<DataNews> listNews = [];
   List<DataKebun> listKebun = [];
 
   NewsViewModel(BuildContext context){
-    getListNews(context);
-    getListKebun(context);
+    this.getListNews(context);
+    this.getListKebun(context);
   }
 
   void getListNews(BuildContext context) async {
