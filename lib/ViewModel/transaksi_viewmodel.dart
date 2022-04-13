@@ -11,7 +11,7 @@ class TransaksiViewModel extends ChangeNotifier{
   List<DataTransaksi> listTransaksi = [];
 
   TransaksiViewModel(BuildContext context){
-    this.getListTransaksi(context);
+    getListTransaksi(context);
   }
 
   void getListTransaksi(BuildContext context) async {

@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../ViewModel/transaksi_viewmodel.dart';
+import 'package:taniku/View/stock_screen.dart';
+import 'package:taniku/ViewModel/transaksi_viewmodel.dart';
+import 'package:taniku/model/response_transaksi_model.dart';
+import 'package:taniku/Service/api/transaksi_api.dart';
 
 class Transaksi extends StatefulWidget {
   const Transaksi({Key? key}) : super(key: key);
@@ -14,17 +17,21 @@ class _Transaksi extends State<Transaksi> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<TransaksiViewModel>(
-      create: (context) => TransaksiViewModel(context),
+      create: (context) =>TransaksiViewModel(context),
       child: Builder(
           builder: (context) {
             return Consumer<TransaksiViewModel>(
               builder: (context, viewModel, child) {
                 return Scaffold(
-                  resizeToAvoidBottomInset: false,
                     appBar: AppBar (
-                      title: Text('Data PKS'),
-                      backgroundColor: Colors.green,
+                      title: Text('Daftar PKS'),
+                      flexibleSpace: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.green
+                        ),
+                      ),
                     ),
+
                     body: Container(
                         margin: const EdgeInsets.all(16),
                         child: SingleChildScrollView(
@@ -40,8 +47,7 @@ class _Transaksi extends State<Transaksi> {
                                       return InkWell(
                                         onTap: () {
                                           // Navigator.push(context, MaterialPageRoute(
-                                          //     builder: (context) => DetailKebun(kebunId: viewModel.listVerticalViewModel[index].id.toString(),)
-
+                                          //     builder: (context) => StockScreen(transaksi: viewModel.DataTransaksi[index])
                                           // ));
                                           print("data : ${viewModel.listTransaksi[index].id.toString()}");
                                         },
@@ -66,6 +72,7 @@ class _Transaksi extends State<Transaksi> {
                                                             Image.network(viewModel.listTransaksi[index].foto.toString(),width: 100, height: 100,),
                                                             const SizedBox(height: 8,),
                                                             Text(viewModel.listTransaksi[index].namaPabrik.toString(),style: const TextStyle(fontSize: 16,fontWeight:FontWeight.bold)),
+                                                            const SizedBox(height: 8,),
                                                             const SizedBox(height: 16,),
                                                           ],
                                                         ),
@@ -75,17 +82,8 @@ class _Transaksi extends State<Transaksi> {
                                                             // mainAxisAlignment: MainAxisAlignment.start,
                                                             children: [
 
-                                                              Text("Kuota ${viewModel.listTransaksi[index].kuota.toString()} Kg",
-                                                                  style:
-                                                                  const TextStyle(
-                                                                      fontSize: 16,
-                                                                      color: Colors.grey)),
-                                                              Text("Rp ${viewModel.listTransaksi[index].harga.toString()},00",
-                                                                  style: const TextStyle(
-                                                                      fontSize: 20,
-                                                                      color: Colors.green,
-                                                                      fontWeight:
-                                                                      FontWeight.bold)),
+                                                              Text("Kuota ${viewModel.listTransaksi[index].kuota.toString()} Kg", style: const TextStyle(fontSize: 16, color: Colors.grey)),
+                                                              Text("Rp ${viewModel.listTransaksi[index].harga.toString()},00", style: const TextStyle(fontSize: 20, color: Colors.green, fontWeight: FontWeight.bold)),
                                                               Text("Kuota terisi ${viewModel.listTransaksi[index].koutaTerisi.toString()}/10.000 Kg", style: const TextStyle(fontSize: 16, color: Colors.grey)),
 
                                                             ],
@@ -96,7 +94,9 @@ class _Transaksi extends State<Transaksi> {
                                                   ),
                                                   InkWell(
                                                     onTap: () {
-                                                      // Navigator.push(context, MaterialPageRoute(builder: (context) => const Loginscreen2()));
+                                                      // Navigator.push(context, MaterialPageRoute(
+                                                      //     builder: (context) => StockScreen(transaksi: viewModel.TransaksiViewModel[index])
+                                                      // ));
 
                                                     },
                                                     child: Container(
