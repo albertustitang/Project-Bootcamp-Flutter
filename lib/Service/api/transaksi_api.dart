@@ -12,7 +12,7 @@ class TransaksiApi {
 
   Future<TransaksiModel> getListRepositoryTransaksi(BuildContext context) async {
     var uri = Uri.parse(baseUrl + "api/niaga/pabrik/getPabrik").replace();
-    final tokenLocal = "N2IyN2I0N2ZmZGU3MmE4NjgxNDhjZGZlNTA4ZGFhZTY0Zjc4YmI0Yw==";
+    final tokenLocal = "OTE0YmNjNGFhZjhiNTRiMGMzMjAyMjg1YjBhZmM0MzQ5YjViNDhhZg==";
     Map<String, String> headersToken(String token) {
       return {
         'Content-Type': 'application/json',

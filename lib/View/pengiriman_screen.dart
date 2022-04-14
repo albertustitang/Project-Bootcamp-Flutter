@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:taniku/viewmodel/pengiriman_viewmodel.dart';
 
 class Pengiriman_screen extends StatefulWidget {
@@ -57,11 +58,7 @@ class _Pengiriman_screenState extends State<Pengiriman_screen> {
                               itemCount: viewModel.listPengiriman.length,
                               itemBuilder: (context, index) {
                                 return InkWell(
-                                  onTap: () {
-                                    // Navigator.push(context, MaterialPageRoute(
-                                    //   builder: (context) => Detailscreen_news(value: viewModel.getKebun[index].id.toString()), ));
-                                    //
-                                  },
+                                  onTap: () {},
                                   child: Container(
                                     alignment: Alignment.center,
                                     child: Column(
@@ -116,7 +113,78 @@ class _Pengiriman_screenState extends State<Pengiriman_screen> {
                                                             if(viewModel.listPengiriman[index].status.toString() == "1") ... [
                                                               ElevatedButton.icon(
                                                                   onPressed: () async {
-
+                                                                    setState(() {
+                                                                    showDialog(
+                                                                        context: context,
+                                                                        builder: (BuildContext context) => new AlertDialog(
+                                                                            contentPadding: EdgeInsets.only(left: 100, right: 100, top: 100, bottom: 100),
+                                                                            titlePadding: EdgeInsets.all(0),
+                                                                            title: Row(
+                                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                              children: [
+                                                                                Container(
+                                                                                    height: 50,
+                                                                                    width: 264,
+                                                                                    color: Colors.green,
+                                                                                    child: Padding(
+                                                                                      padding: EdgeInsets.only(left: 15, top: 15),
+                                                                                      child: Text('Lihat QR', style: TextStyle(color: Colors.white),),
+                                                                                    )),
+                                                                                Container(
+                                                                                  height: 50,
+                                                                                  width: 112,
+                                                                                  color: Colors.green,
+                                                                                  child: IconButton(
+                                                                                      icon: new Icon(Icons.close, color: Colors.white,),
+                                                                                      onPressed: ()  {
+                                                                                        Navigator.pop(context);
+                                                                                      }),
+                                                                                )
+                                                                              ],
+                                                                            ),
+                                                                            content:
+                                                                            SizedBox(
+                                                                              width: 200,
+                                                                              height: 200,
+                                                                              child: Column(
+                                                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                                                children: [
+                                                                                  QrImage(
+                                                                                    data: viewModel.listPengiriman[index].noReservasi.toString(),
+                                                                                    version: QrVersions.auto,
+                                                                                    size: 150,
+                                                                                  ),
+                                                                                  SizedBox(height: 12,),
+                                                                                  Text(viewModel.listPengiriman[index].noReservasi.toString(), style: TextStyle(
+                                                                                    fontWeight: FontWeight.bold,
+                                                                                  ),),
+                                                                                ],
+                                                                              ),
+                                                                            ),
+                                                                          actions: [
+                                                                            Row(
+                                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                                              children: [
+                                                                                Container(
+                                                                                  width: 250,
+                                                                                  decoration: BoxDecoration(
+                                                                                    borderRadius: BorderRadius.all(Radius.circular(16)),
+                                                                                    gradient: LinearGradient(colors: [Colors.orange, Colors.deepOrange]
+                                                                                    ),
+                                                                                  ),
+                                                                                  child: ElevatedButton(
+                                                                                    onPressed: () {
+                                                                                      Navigator.pop(context);
+                                                                                    },
+                                                                                    style: ElevatedButton.styleFrom(primary: Colors.transparent, shadowColor: Colors.transparent),
+                                                                                    child: Text('Kembali', style: TextStyle(fontWeight: FontWeight.bold),),
+                                                                                  ),
+                                                                                ),
+                                                                              ],
+                                                                            ),
+                                                                          ],
+                                                                        ));
+                                                                    });
                                                                   },
                                                                   icon: Icon(Icons.qr_code,
                                                                     color: Colors.orange,
@@ -129,7 +197,60 @@ class _Pengiriman_screenState extends State<Pengiriman_screen> {
                                                               SizedBox(width: 10,),
                                                               ElevatedButton(
                                                                 onPressed: () {
+                                                                  setState(() {
+                                                                    showDialog(
+                                                                        context: context,
+                                                                        builder: (_) => AlertDialog(
+                                                                          shape: const RoundedRectangleBorder(
+                                                                            borderRadius: BorderRadius.all(Radius.circular(20),),),
+                                                                          titlePadding: const EdgeInsets.all(0),
+                                                                          title: Container(
+                                                                            decoration: BoxDecoration(
+                                                                              color: Colors.green,
+                                                                              borderRadius: BorderRadius.all(Radius.circular(20),),),
+                                                                            child: Padding(padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
+                                                                              child: Row(
+                                                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                children: [
+                                                                                  const Text("Reschedule Pengiriman TBS", style: TextStyle(color: Colors.white,),),
+                                                                                  IconButton(onPressed: (){
+                                                                                    Navigator.of(context).pop();
+                                                                                  }, icon: const Icon(Icons.close, color:Colors.white,),),
+                                                                                ],
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                          content:
+                                                                          SizedBox(
+                                                                            width: 100,
+                                                                            child: TextFormField(
 
+                                                                            ),
+                                                                          ),
+                                                                          actions: [
+                                                                            Row(
+                                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                                              children: [
+                                                                                Container(
+                                                                                  width: 250,
+                                                                                  decoration: BoxDecoration(
+                                                                                    borderRadius: BorderRadius.all(Radius.circular(16)),
+                                                                                    gradient: LinearGradient(colors: [Colors.orange, Colors.deepOrange]
+                                                                                    ),
+                                                                                  ),
+                                                                                  child: ElevatedButton(
+                                                                                    onPressed: () {
+                                                                                      Navigator.pop(context);
+                                                                                    },
+                                                                                    style: ElevatedButton.styleFrom(primary: Colors.transparent, shadowColor: Colors.transparent),
+                                                                                    child: Text('Kembali', style: TextStyle(fontWeight: FontWeight.bold),),
+                                                                                  ),
+                                                                                ),
+                                                                              ],
+                                                                            ),
+                                                                          ],
+                                                                        ));
+                                                                  });
                                                                 },
                                                                 child: Text("Jadwal Ulang"),
                                                                 style: ElevatedButton.styleFrom(
@@ -159,12 +280,10 @@ class _Pengiriman_screenState extends State<Pengiriman_screen> {
                                                           ],
                                                           ),
                                                           SizedBox(height: 16,),
-
                                                         ],
                                                       ),
                                                     ],
                                                   ),
-
                                                 ],
                                               ),
                                             ],

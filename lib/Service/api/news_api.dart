@@ -54,7 +54,7 @@ Future<ListKebun> getListKebun(BuildContext context) async {
   var uri = Uri.parse(baseUrl + "api/niaga/kebun/getKebun").replace();
   // final tokenLocal = await SharedPreferenceService().getStringSharedPref(
   //     "token");
-  final tokenLocal = "N2IyN2I0N2ZmZGU3MmE4NjgxNDhjZGZlNTA4ZGFhZTY0Zjc4YmI0Yw==";
+  final tokenLocal = "OTE0YmNjNGFhZjhiNTRiMGMzMjAyMjg1YjBhZmM0MzQ5YjViNDhhZg==";
   final petaniIdLocal = "46";
   final userIdLocal = "85";
 
@@ -91,7 +91,7 @@ Future<ListKebun> getListKebun(BuildContext context) async {
   Future<ListDetail> getListRepositoryDetailKebun(BuildContext context, String kebun_id) async {
     var uri = Uri.parse(baseUrl + "api/niaga/kebun/findOneKebun").replace();
     // final tokenLocal = "MjZhYWNiMDE4YzlmYmFmYmIxMjgzNzgyZGFiMTM2NzVlOTQ0MTVkNQ==";
-    final tokenLocal = "N2IyN2I0N2ZmZGU3MmE4NjgxNDhjZGZlNTA4ZGFhZTY0Zjc4YmI0Yw==";
+    final tokenLocal = "OTE0YmNjNGFhZjhiNTRiMGMzMjAyMjg1YjBhZmM0MzQ5YjViNDhhZg==";
     Map<String, String> headersToken(String token) {
       return {
         'Content-Type': 'application/json',
@@ -121,7 +121,7 @@ Future<ListKebun> getListKebun(BuildContext context) async {
   Future<ListDokumen> getListRepositoryDocument(BuildContext context, String kebun_id) async {
     var uri = Uri.parse(baseUrl + "api/niaga/kebun/getKebunSertifikat").replace();
     // final tokenLocal = "MjZhYWNiMDE4YzlmYmFmYmIxMjgzNzgyZGFiMTM2NzVlOTQ0MTVkNQ==";
-    final tokenLocal = "ZmVhNWE3ZmM0YjQ2ZDFiZmQxMDBiMWMyYWU3ZDU3NjY3MWRhZDBlNQ==";
+    final tokenLocal = "OTE0YmNjNGFhZjhiNTRiMGMzMjAyMjg1YjBhZmM0MzQ5YjViNDhhZg==";
     Map<String, String> headersToken(String token) {
       return {
         'Content-Type': 'application/json',
@@ -154,7 +154,7 @@ Future<ListKebun> getListKebun(BuildContext context) async {
   Future<ListSertifikat> getListRepositorySertifikat(BuildContext context, String kebun_id) async {
     var uri = Uri.parse(baseUrl + "api/niaga/kebun/getSertifikatList").replace();
     // final tokenLocal = "MjZhYWNiMDE4YzlmYmFmYmIxMjgzNzgyZGFiMTM2NzVlOTQ0MTVkNQ==";
-    final tokenLocal = "ZmVhNWE3ZmM0YjQ2ZDFiZmQxMDBiMWMyYWU3ZDU3NjY3MWRhZDBlNQ==";
+    final tokenLocal = "OTE0YmNjNGFhZjhiNTRiMGMzMjAyMjg1YjBhZmM0MzQ5YjViNDhhZg==";
     Map<String, String> headersToken(String token) {
       return {
         'Content-Type': 'application/json',
@@ -186,7 +186,7 @@ Future<ListKebun> getListKebun(BuildContext context) async {
 
   Future<TransaksiModel> getListRepositoryTransaksi(BuildContext context) async {
     var uri = Uri.parse(baseUrl + "api/niaga/pabrik/getPabrik").replace();
-    final tokenLocal = "ZmVhNWE3ZmM0YjQ2ZDFiZmQxMDBiMWMyYWU3ZDU3NjY3MWRhZDBlNQ==";
+    final tokenLocal = "OTE0YmNjNGFhZjhiNTRiMGMzMjAyMjg1YjBhZmM0MzQ5YjViNDhhZg==";
     Map<String, String> headersToken(String token) {
       return {
         'Content-Type': 'application/json',

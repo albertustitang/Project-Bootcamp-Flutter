@@ -1,6 +1,8 @@
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:taniku/View/login_screen.dart';
 import '../ViewModel/profile_viewmodel.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -13,7 +15,7 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
-    final Color background = Color.fromARGB(255, 8, 49, 71);
+    final Color background = Colors.lightBlue;
     final Color fill = Colors.white;
     final List<Color> gradient = [
       background,
@@ -25,31 +27,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final double fillStop = (100 - fillPercent) / 100;
     final List<double> stops = [0.0, fillStop, fillStop, 1.0];
     return ChangeNotifierProvider<ProfileViewModel>(
-      create: (context) => ProfileViewModel(context),
-      child: Builder(
-        builder: (context){
-          return Consumer<ProfileViewModel>(
-            builder: (context, viewModel, child) {
-              return Scaffold(
-                resizeToAvoidBottomInset: false,
-                appBar: AppBar(
-                  backgroundColor: Colors.deepPurpleAccent,
-                  title: Text("Profile"),
-                ),
-                body: Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: gradient,
-                      stops: stops,
-                      end: Alignment.bottomCenter,
-                      begin: Alignment.topCenter,
+        create: (context) => ProfileViewModel(context),
+        child: Builder(
+          builder: (context){
+            return Consumer<ProfileViewModel>(
+                builder: (context, viewModel, child) {
+                  return Scaffold(
+                    resizeToAvoidBottomInset: false,
+                    appBar: AppBar(
+                      backgroundColor: Colors.lightBlue,
+                      title: Text("Profile"),
                     ),
-                  ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Container(
-                          alignment: Alignment.center,
+                    body: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: gradient,
+                          stops: stops,
+                          end: Alignment.bottomCenter,
+                          begin: Alignment.topCenter,
+                        ),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Container(
+                            // margin: EdgeInsets.all(20),
+                            alignment: Alignment.center,
                             child:
                             Column(
                               children: [
@@ -57,34 +60,67 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   height: 115,
                                   width: 115,
                                   child: CircleAvatar(
-                                    backgroundImage: AssetImage("assets/dasha.jpg") ,)
+                                      backgroundImage: AssetImage("assets/dasha.jpg")
+                                  ),
+                                ),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.of(context, rootNavigator: true,).pushAndRemoveUntil(
+                                      MaterialPageRoute(builder: (BuildContext context){ return LoginScreen1();
+                                      },
+                                      ),
+                                          (_) => false,);
+
+                                  },
+                                  child:
+                                  Text("Logout"),
                                 )
-                                // Icon(Icons.person,
-                                //   size: 100,color: Colors.white,),
                               ],
                             ),
-                            // NetworkImage("viewModel.getProfileList.foto.toString()"),
-                        ),
-                        Container(
-                          // margin: EdgeInsets.only(top: 200),
-                          child: 
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Text(viewModel.dataProfile.nama.toString(),style: TextStyle(color: Color.fromARGB(255, 0, 0, 0),fontSize: 20)),
-                                const SizedBox(height: 8,),
-                                Text(viewModel.dataProfile.mobile.toString(),style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 20),),
-                            ],
                           ),
-                        )
-                      ],
-                    ),               
-                ),
-              );
-            }
-          );
-        },
-      )
+                          Row(
+                            children: [
+                              Container(
+                                // alignment: Alignment.center,
+                                margin: EdgeInsets.only(bottom: 200,  left: 20),
+                                child:
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text("Nama: ",style: TextStyle(color: Color.fromARGB(255, 0, 0, 0),fontSize: 20)),
+                                    const SizedBox(height: 8,),
+                                    Text("Mobile: ",style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 20),),
+                                    const SizedBox(height: 8,),
+                                    Text("User Type: ",style: TextStyle(color: Colors.black, fontSize: 20),),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                // alignment: Alignment.center,
+                                margin: EdgeInsets.only(bottom: 200),
+                                child:
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(viewModel.dataProfile.nama.toString(),style: TextStyle(color: Color.fromARGB(255, 0, 0, 0),fontSize: 20)),
+                                    const SizedBox(height: 8,),
+                                    Text(viewModel.dataProfile.mobile.toString(),style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 20),),
+                                    const SizedBox(height: 8,),
+                                    Text(viewModel.dataProfile.typeUser.toString(),style: TextStyle(color: Colors.black, fontSize: 20),),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                }
+            );
+          },
+        )
     );
   }
 }

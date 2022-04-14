@@ -94,9 +94,9 @@ class _Transaksi extends State<Transaksi> {
                                                   ),
                                                   InkWell(
                                                     onTap: () {
-                                                      // Navigator.push(context, MaterialPageRoute(
-                                                      //     builder: (context) => StockScreen(transaksi: viewModel.TransaksiViewModel[index])
-                                                      // ));
+                                                      Navigator.push(context, MaterialPageRoute(
+                                                          builder: (context) => ReservasiAddScreen(data_transaksi: viewModel.listTransaksi[index])
+                                                      ));
 
                                                     },
                                                     child: Container(

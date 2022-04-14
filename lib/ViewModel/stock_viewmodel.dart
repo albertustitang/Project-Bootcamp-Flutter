@@ -1,24 +1,18 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:taniku/View/transaksi.dart';
-
 import '../Service/api/stock_api.dart';
 
 
-class StockViewModel extends ChangeNotifier{
-  final _stockApi = StockApi();
-  List<Transaksi> listTransaksi = [];
+class ReservasiAdd extends ChangeNotifier {
+  final _reservasiadd = ReservasiAddApi();
 
-  StockViewModel(BuildContext context) {}
+  ReservasiAdd(BuildContext context) {
+    // getReservasiadd(context);
+  }
 
-  void getResponseStock(Transaksi, BuildContext context) async {
-    final response = await _stockApi.getResponseStock(Transaksi, context);
+  void getReservasiadd(String namapabrik, String date, String time, String berat, BuildContext context) async {
+    final response = await _reservasiadd.getReservasiAdd(context);
     if (response.error == null) {
-      if(response.isSuccess == true) {
-        print(response.message.toString());
-        print('Berhasil');
-      } else {
-        print('gagal');
+      if (response.isSuccess == true) {} else {
         print(response.message.toString());
       }
     } else {
