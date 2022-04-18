@@ -10,14 +10,14 @@ import '../Model/response_listkebun_model.dart';
 
 class NewsViewModel extends ChangeNotifier{
   final _newsApi = NewsApi();
-  final _sharedPref = SharedPreferenceService();
+  // final _sharedPref = SharedPreferenceService();
 
   List<DataNews> listNews = [];
   List<DataKebun> listKebun = [];
 
   NewsViewModel(BuildContext context){
-    this.getListNews(context);
-    this.getListKebun(context);
+    getListNews(context);
+    getListKebun(context);
   }
 
   void getListNews(BuildContext context) async {

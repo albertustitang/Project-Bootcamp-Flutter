@@ -20,7 +20,7 @@ class PengirimanApi {
       return {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'Authorization': 'Bearer OTE0YmNjNGFhZjhiNTRiMGMzMjAyMjg1YjBhZmM0MzQ5YjViNDhhZg=='
+        'Authorization': 'Bearer $token'
       };
     }
     var _body = jsonEncode({
@@ -29,7 +29,7 @@ class PengirimanApi {
       'type_user': "PTN",
       'sort': "desc", //sort by "asc" or "desc"//
       'page': "1",
-      'user_id': 85,
+      'user_id': userIdLocal,
       'status':"",
     });
     print(tokenLocal);

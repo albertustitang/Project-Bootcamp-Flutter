@@ -57,7 +57,7 @@ class _PengirimanPagesState extends State<PengirimanPages> {
                 builder: (context, viewModel, child) {
                   return RefreshIndicator(
                     displacement: 150,
-                    color: Colors.blue,
+                    color: Colors.white10,
                     strokeWidth: 5,
                     triggerMode: RefreshIndicatorTriggerMode.onEdge,
                     child: Scaffold(
@@ -460,9 +460,10 @@ class _PengirimanPagesState extends State<PengirimanPages> {
                                                                                     ),
                                                                                     onPressed: () {
                                                                                       String noRes = viewModel.listPengiriman[index].noReservasi.toString();
-                                                                                      String petaniId = viewModel.listPengiriman[index].noReservasi.toString();
+                                                                                      String petaniId = viewModel.listPengiriman[index].petaniId.toString();
                                                                                       String tanggal = dateController.text.toString();
                                                                                       String waktu = timeController.text.toString();
+
                                                                                       viewModel.getStockEdit(noRes, petaniId, tanggal, waktu, context);
                                                                                       // Navigator.pop(context);
                                                                                     },
@@ -477,8 +478,7 @@ class _PengirimanPagesState extends State<PengirimanPages> {
                                                                     });
 
                                                                   },
-                                                                  child: Text(
-                                                                      "Jadwal Ulang"),
+                                                                  child: Text("Jadwal Ulang"),
                                                                   style: ElevatedButton
                                                                       .styleFrom(
                                                                     primary: Colors
@@ -504,8 +504,7 @@ class _PengirimanPagesState extends State<PengirimanPages> {
 // Faktur//
                                                                   ElevatedButton(
                                                                     onPressed: () {},
-                                                                    child: Text(
-                                                                        "Faktur"),
+                                                                    child: Text("Faktur"),
                                                                     style: ElevatedButton
                                                                         .styleFrom(
                                                                       primary: Colors
@@ -524,8 +523,7 @@ class _PengirimanPagesState extends State<PengirimanPages> {
                                                                 ],
                                                             ],
                                                             ),
-                                                            SizedBox(
-                                                              height: 16,),
+                                                            SizedBox(height: 16,),
                                                           ],
                                                         ),
                                                       ],

@@ -5,13 +5,17 @@ import 'package:taniku/Model/response_login_model.dart';
 import 'package:taniku/Service/api/login_api.dart';
 import 'package:taniku/Service/local/shared_pref_service.dart';
 
+import '../View/bottom_navigation.dart';
+
 
 class LoginViewModel extends ChangeNotifier{
   final _loginApi = LoginApi();
   final _sharedPref = SharedPreferenceService();
   Data dataLogin = new Data();
 
-  LoginViewModel(BuildContext){}
+  LoginViewModel(BuildContext){
+    _sharedPref.removeSharedPref();
+  }
 
   void login(String username, String password, BuildContext context) async {
     final response = await _loginApi.login(username, password, context);
@@ -28,6 +32,7 @@ class LoginViewModel extends ChangeNotifier{
         print(token);
         print(petani);
         print(id);
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>BotNavBar()));
         // Navigator.push(context, MaterialPageRoute(builder: (context) => ListKebunScreen()));
       } else {
         print(response.message.toString());

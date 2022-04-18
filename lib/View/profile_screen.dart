@@ -1,9 +1,11 @@
 import 'dart:ui';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:taniku/View/login_screen.dart';
+import 'package:taniku/Service/local/shared_pref_service.dart';
 import '../ViewModel/profile_viewmodel.dart';
+import 'login_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -15,17 +17,6 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
-    final Color background = Colors.lightBlue;
-    final Color fill = Colors.white;
-    final List<Color> gradient = [
-      background,
-      background,
-      fill,
-      fill,
-    ];
-    final double fillPercent = 56.23; // fills 56.23% for container from bottom
-    final double fillStop = (100 - fillPercent) / 100;
-    final List<double> stops = [0.0, fillStop, fillStop, 1.0];
     return ChangeNotifierProvider<ProfileViewModel>(
         create: (context) => ProfileViewModel(context),
         child: Builder(
@@ -35,88 +26,72 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   return Scaffold(
                     resizeToAvoidBottomInset: false,
                     appBar: AppBar(
-                      backgroundColor: Colors.lightBlue,
+                      backgroundColor: Colors.green,
                       title: Text("Profile"),
                     ),
                     body: Container(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: gradient,
-                          stops: stops,
-                          end: Alignment.bottomCenter,
-                          begin: Alignment.topCenter,
-                        ),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Container(
-                            // margin: EdgeInsets.all(20),
-                            alignment: Alignment.center,
-                            child:
-                            Column(
+                      margin: EdgeInsets.all(16),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Row(
                               children: [
-                                SizedBox(
-                                  height: 115,
-                                  width: 115,
-                                  child: CircleAvatar(
-                                      backgroundImage: AssetImage("assets/dasha.jpg")
-                                  ),
+                                Column(
+                                  children: [
+                                    const CircleAvatar(
+                                      backgroundImage: AssetImage("assets/dasha.jpg"),
+                                      radius: 50,
+                                    ),
+                                  ],
                                 ),
-                                ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.of(context, rootNavigator: true,).pushAndRemoveUntil(
-                                      MaterialPageRoute(builder: (BuildContext context){ return LoginScreen1();
-                                      },
+                                SizedBox(width: 16,),
+                                Column(
+                                  children: [
+                                    Text(viewModel.dataProfile.nama.toString(), style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),),
+                                  ],
+                                ),
+                                SizedBox(width: 124,),
+                                Column(
+                                  children: [
+                                    ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        primary: Colors.orange
                                       ),
-                                          (_) => false,);
-
-                                  },
-                                  child:
-                                  Text("Logout"),
-                                )
+                                      onPressed: () {
+                                        SharedPreferenceService().removeSharedPref();
+                                        // Navigator.pop(context);
+                                        Navigator.of(context, rootNavigator: true,).pushAndRemoveUntil(
+                                          MaterialPageRoute(builder: (BuildContext context){ return LoginScreen1();
+                                          },
+                                          ),
+                                              (_) => false,);
+                                      },
+                                        child:
+                                    Text('>', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
+                                    )
+                                  ],
+                                ),
                               ],
                             ),
+                            const SizedBox(height: 16,),
+                            Row(
+                              children: [
+                                Text("Kebun Saya", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+                                SizedBox(width: 110,),
+                                ElevatedButton.icon(onPressed: () {},
+                                    icon: Icon(Icons.add),
+                                    label: Text("Tambah Kebun", style: TextStyle(fontSize: 12),),
+                                style: ElevatedButton.styleFrom(
+                                  primary: Colors.orange,
+                                ),),
+                              ],
+                            ),
+                          ],
+                        ),
                           ),
-                          Row(
-                            children: [
-                              Container(
-                                // alignment: Alignment.center,
-                                margin: EdgeInsets.only(bottom: 200,  left: 20),
-                                child:
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text("Nama: ",style: TextStyle(color: Color.fromARGB(255, 0, 0, 0),fontSize: 20)),
-                                    const SizedBox(height: 8,),
-                                    Text("Mobile: ",style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 20),),
-                                    const SizedBox(height: 8,),
-                                    Text("User Type: ",style: TextStyle(color: Colors.black, fontSize: 20),),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                // alignment: Alignment.center,
-                                margin: EdgeInsets.only(bottom: 200),
-                                child:
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(viewModel.dataProfile.nama.toString(),style: TextStyle(color: Color.fromARGB(255, 0, 0, 0),fontSize: 20)),
-                                    const SizedBox(height: 8,),
-                                    Text(viewModel.dataProfile.mobile.toString(),style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 20),),
-                                    const SizedBox(height: 8,),
-                                    Text(viewModel.dataProfile.typeUser.toString(),style: TextStyle(color: Colors.black, fontSize: 20),),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          )
-                        ],
                       ),
-                    ),
-                  );
+                    );
                 }
             );
           },

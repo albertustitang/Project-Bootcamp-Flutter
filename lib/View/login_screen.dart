@@ -89,13 +89,12 @@ class _LoginScreen1State extends State<LoginScreen1> {
                                 style: TextButton.styleFrom(
                                     backgroundColor: Color(0xff2196f3)),
                                 onPressed: () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>BotNavBar()));
                                   String username = textController.text.toString();
                                   String password = text2Controller.text.toString();
 
-                                  viewModel.login(username, password, context);
                                   setState(() {
                                     if (_formKey.currentState!.validate()) {
+                                      viewModel.login(username, password, context);
                                       print("Email value => " + textController.text);
                                       print("Password value => " + text2Controller.text);
                                     } else {

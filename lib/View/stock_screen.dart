@@ -290,11 +290,11 @@ class _ReservasiAddScreenState extends State<ReservasiAddScreen> {
                                           style: TextStyle(color: Colors.white),
                                         ),
                                         onPressed: () {
+                                          String pabrikid = widget.data_transaksi.id.toString();
                                           String namapabrik = pabrikController.text.toString();
                                           String tanggal = dateController.text.toString();
                                           String waktu = timeController.text.toString();
                                           String tonasi = beratController.text.toString();
-                                          String pabrikid = widget.data_transaksi.id.toString();
 
                                           viewModel.getReservasiadd(pabrikid, namapabrik, tanggal, waktu, tonasi, context);
                                           Navigator.pop(context);

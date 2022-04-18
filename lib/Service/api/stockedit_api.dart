@@ -22,7 +22,7 @@ class StockEditApi {
       return {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'Authorization': 'Bearer OTE0YmNjNGFhZjhiNTRiMGMzMjAyMjg1YjBhZmM0MzQ5YjViNDhhZg=='
+        'Authorization': 'Bearer $token'
       };
     }
     var _body = jsonEncode({
@@ -31,7 +31,7 @@ class StockEditApi {
       "status":"1",
       "tanggal_pengiriman":tanggal + " " + waktu,
       "type_user":"PTN",
-      "user_id":85,
+      "user_id":userIdLOcal,
     });
 
     print(tokenLocal);

@@ -23,6 +23,8 @@ class NewsApi {
   Future<NewsModel> getListNews(BuildContext context) async {
     var uri = Uri.parse(baseUrl + "api/niaga/news").replace();
     final tokenLocal = await SharedPreferenceService().getStringSharedPref("token");
+    final petaniIdLocal = await SharedPreferenceService().getStringSharedPref("petani_id");
+    final userIdLocal = await SharedPreferenceService().getStringSharedPref("user_id");
     Map<String, String> headersToken(String token) {
       return {
         'Content-Type': 'application/json',
@@ -30,9 +32,12 @@ class NewsApi {
         'Authorization': 'Bearer $token'
       };
     }
-    var _body = jsonEncode({});
-    print(tokenLocal);
-    print(_body);
+    var _body = jsonEncode({
+      'orderBy' : 'id',
+      'petani_id' : petaniIdLocal,
+      'sort' : "asc",
+      'user_id' : userIdLocal,
+    });
     try {
       final response = await client
           .post(uri, headers: headersToken(tokenLocal), body: _body)
@@ -55,28 +60,20 @@ Future<ListKebun> getListKebun(BuildContext context) async {
   final tokenLocal = await SharedPreferenceService().getStringSharedPref("token");
   final petaniIdLocal = await SharedPreferenceService().getStringSharedPref("petani_id");
   final userIdLocal = await SharedPreferenceService().getStringSharedPref("user_id");
-
-  // final tokenLocal = "OTE0YmNjNGFhZjhiNTRiMGMzMjAyMjg1YjBhZmM0MzQ5YjViNDhhZg==";
-  // final petaniIdLocal = "46";
-  // final userIdLocal = "85";
-
   Map<String, String> headersToken(String token) {
     return {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-      'Authorization': 'Bearer $tokenLocal'
+      'Authorization': 'Bearer $token'
     };
   }
   var _body = jsonEncode({
     "orderBy": "id",
     "petani_id": petaniIdLocal,
     "sort": "asc",
-    "user_id": userIdLocal
+    "user_id": userIdLocal,
   });
-  print(tokenLocal);
-  print(_body);
   try {
-
     final response = await client
         .post(uri, headers: headersToken(tokenLocal), body: _body)
         .timeout(const Duration(seconds: 30));
@@ -93,7 +90,9 @@ Future<ListKebun> getListKebun(BuildContext context) async {
   Future<ListDetail> getListRepositoryDetailKebun(BuildContext context, String kebun_id) async {
     var uri = Uri.parse(baseUrl + "api/niaga/kebun/findOneKebun").replace();
     // final tokenLocal = "MjZhYWNiMDE4YzlmYmFmYmIxMjgzNzgyZGFiMTM2NzVlOTQ0MTVkNQ==";
-    final tokenLocal = "OTE0YmNjNGFhZjhiNTRiMGMzMjAyMjg1YjBhZmM0MzQ5YjViNDhhZg==";
+    final tokenLocal = await SharedPreferenceService().getStringSharedPref("token");
+    final userIdLocal = await SharedPreferenceService().getStringSharedPref("user_id");
+
     Map<String, String> headersToken(String token) {
       return {
         'Content-Type': 'application/json',
@@ -102,7 +101,7 @@ Future<ListKebun> getListKebun(BuildContext context) async {
       };
     }
     var _body = jsonEncode({
-      "user_id": "85",
+      "user_id": userIdLocal,
       "kebun_id": kebun_id
     });
     // print(_body);
@@ -122,8 +121,9 @@ Future<ListKebun> getListKebun(BuildContext context) async {
   }
   Future<ListDokumen> getListRepositoryDocument(BuildContext context, String kebun_id) async {
     var uri = Uri.parse(baseUrl + "api/niaga/kebun/getKebunSertifikat").replace();
+    final tokenLocal = await SharedPreferenceService().getStringSharedPref("token");
+    final userIdLocal = await SharedPreferenceService().getStringSharedPref("user_id");
     // final tokenLocal = "MjZhYWNiMDE4YzlmYmFmYmIxMjgzNzgyZGFiMTM2NzVlOTQ0MTVkNQ==";
-    final tokenLocal = "OTE0YmNjNGFhZjhiNTRiMGMzMjAyMjg1YjBhZmM0MzQ5YjViNDhhZg==";
     Map<String, String> headersToken(String token) {
       return {
         'Content-Type': 'application/json',
@@ -134,7 +134,7 @@ Future<ListKebun> getListKebun(BuildContext context) async {
     var _body = jsonEncode({
       "orderBy": "nomor",
       "sort": "asc",
-      "user_id": "85",
+      "user_id": userIdLocal,
       "kebun_id": kebun_id
     });
     print(_body);
@@ -155,8 +155,9 @@ Future<ListKebun> getListKebun(BuildContext context) async {
 
   Future<ListSertifikat> getListRepositorySertifikat(BuildContext context, String kebun_id) async {
     var uri = Uri.parse(baseUrl + "api/niaga/kebun/getSertifikatList").replace();
+    final tokenLocal = await SharedPreferenceService().getStringSharedPref("token");
+    final userIdLocal = await SharedPreferenceService().getStringSharedPref("user_id");
     // final tokenLocal = "MjZhYWNiMDE4YzlmYmFmYmIxMjgzNzgyZGFiMTM2NzVlOTQ0MTVkNQ==";
-    final tokenLocal = "OTE0YmNjNGFhZjhiNTRiMGMzMjAyMjg1YjBhZmM0MzQ5YjViNDhhZg==";
     Map<String, String> headersToken(String token) {
       return {
         'Content-Type': 'application/json',
@@ -167,7 +168,7 @@ Future<ListKebun> getListKebun(BuildContext context) async {
     var _body = jsonEncode({
       "orderBy": "nomor",
       "sort": "asc",
-      "user_id": "85",
+      "user_id": userIdLocal,
       "kebun_id": kebun_id
     });
     print(_body);
@@ -188,7 +189,9 @@ Future<ListKebun> getListKebun(BuildContext context) async {
 
   Future<TransaksiModel> getListRepositoryTransaksi(BuildContext context) async {
     var uri = Uri.parse(baseUrl + "api/niaga/pabrik/getPabrik").replace();
-    final tokenLocal = "OTE0YmNjNGFhZjhiNTRiMGMzMjAyMjg1YjBhZmM0MzQ5YjViNDhhZg==";
+    final tokenLocal = await SharedPreferenceService().getStringSharedPref("token");
+    final userIdLocal = await SharedPreferenceService().getStringSharedPref("user_id");
+
     Map<String, String> headersToken(String token) {
       return {
         'Content-Type': 'application/json',
@@ -203,7 +206,8 @@ Future<ListKebun> getListKebun(BuildContext context) async {
       "longitude": "77.49",
       "orderBy": "jarak_pabrik",
       "sort": "desc",
-      "user_id": "85" });
+      "user_id": userIdLocal,
+    });
     print(_body);
     try {
       final response = await client

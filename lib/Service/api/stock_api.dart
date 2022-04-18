@@ -15,21 +15,22 @@ class ReservasiAddApi {
   Future <StockModel> getReservasiAdd (String pabrikid, String waktu, String tanggal, String namapabrik, String tonasi, BuildContext context) async {
     var uri = Uri.parse(baseUrl + "api/niaga/reservasi/add").replace();
     final tokenLocal = await SharedPreferenceService().getStringSharedPref("token");
-    // final petaniIdLocal = await SharedPreferenceService().getStringSharedPref("petani_id");
-    // final userIdLocal = await SharedPreferenceService().getStringSharedPref("user_id");
+    final petaniIdLocal = await SharedPreferenceService().getStringSharedPref("petani_id");
+    final userIdLocal = await SharedPreferenceService().getStringSharedPref("user_id");
     Map<String, String> headersToken(String token) {
       return {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'Authorization': 'Bearer OTE0YmNjNGFhZjhiNTRiMGMzMjAyMjg1YjBhZmM0MzQ5YjViNDhhZg=='
+        'Authorization': 'Bearer $token'
       };
     }
-    var _body = jsonEncode({ "koperasi_id": "",
+    var _body = jsonEncode({
+      "koperasi_id": "",
       "pabrik_id": pabrikid,
-      "petani_id": "46",
-      "tanggal_pengiriman": tanggal + " " + waktu,
+      "petani_id": petaniIdLocal,
+      "tanggal_pengiriman": tanggal +" "+ waktu,
       "tonasi": tonasi,
-      "user_id": "85" });
+      "user_id": userIdLocal });
     print(tokenLocal);
     print(_body);
     try {

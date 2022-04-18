@@ -9,8 +9,8 @@ class ReservasiAdd extends ChangeNotifier {
     // getReservasiadd(context);
   }
 
-  void getReservasiadd(String pabrikid, String waktu, String tanggal, String namapabrik, String tonasi, BuildContext context) async {
-    final response = await _reservasiadd.getReservasiAdd(pabrikid,  waktu, tanggal, namapabrik, tonasi, context);
+  void getReservasiadd(String pabrikid, String namapabrik, String tanggal, String waktu, String tonasi, BuildContext context) async {
+    final response = await _reservasiadd.getReservasiAdd(pabrikid,  namapabrik, tanggal, waktu, tonasi, context);
     if (response.error == null) {
       if (response.isSuccess == true) {} else {
         print(response.message.toString());

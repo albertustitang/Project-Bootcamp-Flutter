@@ -6,6 +6,9 @@ class ListKebun {
 
   ListKebun({this.isSuccess, this.message, this.data,this.error});
 
+  factory ListKebun.withError(String error) => ListKebun(error: error);
+
+
   ListKebun.fromJson(Map<String, dynamic> json) {
     isSuccess = json['isSuccess'];
     message = json['message'];
@@ -16,7 +19,6 @@ class ListKebun {
       });
     }
   }
-  factory ListKebun.withError(String error) => ListKebun(error: error);
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();

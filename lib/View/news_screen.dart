@@ -174,17 +174,17 @@ class _NewsScreenState extends State<NewsScreen> {
                                                         crossAxisAlignment: CrossAxisAlignment.start,
                                                         children: [
                                                           Text("Lokasi", style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold),),
-                                                          Text("${viewModel.listKebun[index].alamat.toString()},", style:
+                                                          Text(viewModel.listKebun[index].alamat.toString(), style:
                                                           const TextStyle(fontSize: 12, color: Colors.grey),),
-                                                          Text("${viewModel.listKebun[index].kelurahanName.toString()},", style:
+                                                          Text(viewModel.listKebun[index].kelurahanName.toString(), style:
                                                           const TextStyle(fontSize: 12, color: Colors.grey),),
-                                                          Text("${viewModel.listKebun[index].kecamatanName.toString()},", style:
+                                                          Text(viewModel.listKebun[index].kecamatanName.toString(), style:
                                                           const TextStyle(fontSize: 12, color: Colors.grey),),
-                                                          Text("${viewModel.listKebun[index].kabupatenKotaName.toString()},", style:
+                                                          Text(viewModel.listKebun[index].kabupatenKotaName.toString(), style:
                                                           const TextStyle(fontSize: 12, color: Colors.grey),),
-                                                          Text("${viewModel.listKebun[index].provinsiName.toString()},", style:
+                                                          Text(viewModel.listKebun[index].provinsiName.toString(), style:
                                                           const TextStyle(fontSize: 12, color: Colors.grey),),
-                                                          Text("${viewModel.listKebun[index].kodePos.toString()},", style:
+                                                          Text(viewModel.listKebun[index].kodePos.toString(), style:
                                                           const TextStyle(fontSize: 12, color: Colors.grey),),
                                                         ],
                                                       ),
