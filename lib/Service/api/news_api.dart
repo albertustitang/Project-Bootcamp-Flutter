@@ -52,24 +52,26 @@ class NewsApi {
 
 Future<ListKebun> getListKebun(BuildContext context) async {
   var uri = Uri.parse(baseUrl + "api/niaga/kebun/getKebun").replace();
-  // final tokenLocal = await SharedPreferenceService().getStringSharedPref(
-  //     "token");
-  final tokenLocal = "OTE0YmNjNGFhZjhiNTRiMGMzMjAyMjg1YjBhZmM0MzQ5YjViNDhhZg==";
-  final petaniIdLocal = "46";
-  final userIdLocal = "85";
+  final tokenLocal = await SharedPreferenceService().getStringSharedPref("token");
+  final petaniIdLocal = await SharedPreferenceService().getStringSharedPref("petani_id");
+  final userIdLocal = await SharedPreferenceService().getStringSharedPref("user_id");
+
+  // final tokenLocal = "OTE0YmNjNGFhZjhiNTRiMGMzMjAyMjg1YjBhZmM0MzQ5YjViNDhhZg==";
+  // final petaniIdLocal = "46";
+  // final userIdLocal = "85";
 
   Map<String, String> headersToken(String token) {
     return {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-      'Authorization': 'Bearer $token'
+      'Authorization': 'Bearer $tokenLocal'
     };
   }
   var _body = jsonEncode({
     "orderBy": "id",
-    "petani_id": "46",
+    "petani_id": petaniIdLocal,
     "sort": "asc",
-    "user_id": "85"
+    "user_id": userIdLocal
   });
   print(tokenLocal);
   print(_body);

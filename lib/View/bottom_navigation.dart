@@ -17,7 +17,7 @@ class BotNavBar extends StatelessWidget {
       return [
         const NewsScreen(),
         const Transaksi(),
-        const Pengiriman_screen(),
+        const PengirimanPages(),
         const ProfileScreen(),
         // const HomePage()
       ];

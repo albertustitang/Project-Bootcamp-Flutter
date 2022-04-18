@@ -291,12 +291,13 @@ class _ReservasiAddScreenState extends State<ReservasiAddScreen> {
                                         ),
                                         onPressed: () {
                                           String namapabrik = pabrikController.text.toString();
-                                          String date = dateController.text.toString();
-                                          String time = timeController.text.toString();
-                                          String berat = beratController.text.toString();
+                                          String tanggal = dateController.text.toString();
+                                          String waktu = timeController.text.toString();
+                                          String tonasi = beratController.text.toString();
+                                          String pabrikid = widget.data_transaksi.id.toString();
 
-                                          viewModel.getReservasiadd(namapabrik, date, time, berat, context);
-                                          Navigator.push(context, MaterialPageRoute(builder: (context) => const Pengiriman_screen()));
+                                          viewModel.getReservasiadd(pabrikid, namapabrik, tanggal, waktu, tonasi, context);
+                                          Navigator.pop(context);
                                         },
                                       ),
                                     ),

@@ -10,8 +10,7 @@ class StockEditModel {
     message = json['message'];
   }
 
-  factory StockEditModel.withError(
-      String error) => StockEditModel(error: error);
+  factory StockEditModel.withError(String error) => StockEditModel(error: error);
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();

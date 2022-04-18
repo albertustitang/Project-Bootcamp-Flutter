@@ -12,7 +12,7 @@ class ReservasiAddApi {
   var client = http.Client();
   var baseUrl = "http://34.126.79.39:81/";
 
-  Future <StockModel> getReservasiAdd (BuildContext context) async {
+  Future <StockModel> getReservasiAdd (String pabrikid, String waktu, String tanggal, String namapabrik, String tonasi, BuildContext context) async {
     var uri = Uri.parse(baseUrl + "api/niaga/reservasi/add").replace();
     final tokenLocal = await SharedPreferenceService().getStringSharedPref("token");
     // final petaniIdLocal = await SharedPreferenceService().getStringSharedPref("petani_id");
@@ -25,10 +25,10 @@ class ReservasiAddApi {
       };
     }
     var _body = jsonEncode({ "koperasi_id": "",
-      "pabrik_id": "8",
+      "pabrik_id": pabrikid,
       "petani_id": "46",
-      "tanggal_pengiriman": "2022-03-16 17:46:00",
-      "tonasi": "1000",
+      "tanggal_pengiriman": tanggal + " " + waktu,
+      "tonasi": tonasi,
       "user_id": "85" });
     print(tokenLocal);
     print(_body);
