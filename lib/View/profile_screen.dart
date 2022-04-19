@@ -82,7 +82,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 Text("Kebun Saya", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
                                 SizedBox(width: 110,),
                                 ElevatedButton.icon(onPressed: () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => const TambahKebun()),);
+                                  Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
+                                      builder: (_) => TambahKebun())
+                                  );
                                 },
                                     icon: Icon(Icons.add),
                                     label: Text("Tambah Kebun", style: TextStyle(fontSize: 12),),
