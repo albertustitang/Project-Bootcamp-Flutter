@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:taniku/Service/local/shared_pref_service.dart';
+import 'package:taniku/View/kebunDetail.dart';
+import 'package:taniku/View/tambahkebun_screen.dart';
 import '../ViewModel/profile_viewmodel.dart';
 import 'login_screen.dart';
 
@@ -79,13 +81,94 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               children: [
                                 Text("Kebun Saya", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
                                 SizedBox(width: 110,),
-                                ElevatedButton.icon(onPressed: () {},
+                                ElevatedButton.icon(onPressed: () {
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => const TambahKebun()),);
+                                },
                                     icon: Icon(Icons.add),
                                     label: Text("Tambah Kebun", style: TextStyle(fontSize: 12),),
                                 style: ElevatedButton.styleFrom(
                                   primary: Colors.orange,
                                 ),),
                               ],
+                            ),
+                            SizedBox(height: 16,),
+                            Container(
+                              alignment: Alignment.center,
+                              child: Column(
+                                children: [
+                                  SizedBox(height: 10,),
+                                  ListView.builder(
+                                    shrinkWrap: true,
+                                      physics: const NeverScrollableScrollPhysics(),
+                                      itemCount: viewModel.listKebun.length,
+                                      itemBuilder: (context,index) {
+                                      return Container(
+                                        child: 
+                                        Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text("Luas Kebun " + viewModel.listKebun[index].luasKebun.toString() + " Hektar ",
+                                                style: TextStyle(fontSize: 16, color: Colors.green),),
+                                                PopupMenuButton(
+                                                  offset: Offset(45, 45),
+                                                  onSelected: (value) {
+                                                    setState(() {
+                                                      if (value == "Detail") {
+                                                        Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
+                                                          builder: (_) => KebunDetail(value: viewModel.listKebun[index].id
+                                                              .toString())
+                                                        ));
+                                                      }else if (value == "Ubah") {
+
+                                                      } else {
+
+                                                      }
+                                                    });
+                                                  },
+                                                  child: Center(
+                                                    child: Icon(Icons.more_horiz, color: Colors.deepOrange, size: 30,)),
+                                                  itemBuilder: (context) {
+                                                    return [
+                                                      PopupMenuItem(
+                                                        child: Container(
+                                                            width: 90,
+                                                            child: Text("Lihat Detail")),
+                                                        value: 'Detail',
+                                                      ),
+                                                      PopupMenuItem(
+                                                        child: Text("Ubah Data"),
+                                                        value: 'Ubah',
+                                                      ),
+                                                      PopupMenuItem(
+                                                        child: Text("Hapus"),
+                                                        value: 'Hapus',
+                                                      )
+                                                    ];
+                                                  },
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(height: 12,),
+                                            Text("Potensi Produk " + viewModel.listKebun[index].potensiProduksi.toString() + " Kg/Bulan",
+                                              style: TextStyle(fontSize: 16, color: Colors.grey),),
+                                            SizedBox(height: 10,),
+                                            Text("Kondisi Lahan " + viewModel.listKebun[index].statusLahanId.toString(),
+                                              style: TextStyle(fontSize: 16, color: Colors.grey),),
+                                            SizedBox(height: 10,),
+                                            Divider(
+                                              thickness: 1,
+                                              color: Colors.grey,
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                      },
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),

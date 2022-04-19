@@ -1,8 +1,7 @@
 import 'dart:convert';
 
-
 import 'package:flutter/cupertino.dart';
-import 'package:taniku/Model/response_listdetail_model.dart';
+import 'package:taniku/Model/response_listkebun_model.dart';
 import 'package:taniku/Model/response_listdokumen_model.dart';
 import 'package:taniku/Service/api/news_api.dart';
 import 'package:taniku/Model/response_listsertifikat_model.dart';

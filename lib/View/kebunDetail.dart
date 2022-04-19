@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:taniku/Model/response_listdetail_model.dart';
 import 'package:taniku/ViewModel/detailkebun_viewmodel.dart';
+import 'package:taniku/Model/response_listkebun_model.dart';
 class KebunDetail extends StatefulWidget {
   String value;
   KebunDetail({ Key? key, required this.value,}) : super(key: key);

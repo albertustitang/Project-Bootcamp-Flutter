@@ -180,9 +180,7 @@ class _LoginScreen1State extends State<LoginScreen1> {
                               child: TextButton(
                                 style:
                                 TextButton.styleFrom(backgroundColor: Colors.indigo),
-                                onPressed: () {
-                                  // Navigator.push(context, MaterialPageRoute(builder: (context) => HomePro()));
-                                },
+                                onPressed: () {},
                                 child: Text(
                                   "Log in with Google ",
                                   style: TextStyle(

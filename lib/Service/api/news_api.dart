@@ -8,7 +8,6 @@ import 'package:http/http.dart' as http;
 import 'package:taniku/Service/local/shared_pref_service.dart';
 import 'package:taniku/Model/response_news_model.dart';
 
-import '../../Model/response_listdetail_model.dart';
 import '../../Model/response_listdokumen_model.dart';
 import '../../Model/response_listkebun_model.dart';
 import '../../Model/response_listsertifikat_model.dart';
@@ -87,7 +86,7 @@ Future<ListKebun> getListKebun(BuildContext context) async {
     return ListKebun.withError("Waktu Habis, Silahkan Coba Kembali");
   }
 }
-  Future<ListDetail> getListRepositoryDetailKebun(BuildContext context, String kebun_id) async {
+  Future<ListKebun> getListRepositoryDetailKebun(BuildContext context, String kebun_id) async {
     var uri = Uri.parse(baseUrl + "api/niaga/kebun/findOneKebun").replace();
     // final tokenLocal = "MjZhYWNiMDE4YzlmYmFmYmIxMjgzNzgyZGFiMTM2NzVlOTQ0MTVkNQ==";
     final tokenLocal = await SharedPreferenceService().getStringSharedPref("token");
@@ -104,19 +103,19 @@ Future<ListKebun> getListKebun(BuildContext context) async {
       "user_id": userIdLocal,
       "kebun_id": kebun_id
     });
-    // print(_body);
+    print(_body);
     try {
       final response = await client
           .post(uri, headers: headersToken(tokenLocal), body: _body)
           .timeout(const Duration(seconds: 30));
       print(response.body);
       if (response.statusCode == HttpStatus.ok) {
-        return ListDetail.fromJson(jsonDecode(response.body));
+        return ListKebun.fromJson(jsonDecode(response.body));
       } else {
-        return ListDetail.withError("Gagal Load Data");
+        return ListKebun.withError("Gagal Load Data");
       }
     } on TimeoutException catch (_) {
-      return ListDetail.withError("Waktu Habis, Silahkan Coba Kembali");
+      return ListKebun.withError("Waktu Habis, Silahkan Coba Kembali");
     }
   }
   Future<ListDokumen> getListRepositoryDocument(BuildContext context, String kebun_id) async {
