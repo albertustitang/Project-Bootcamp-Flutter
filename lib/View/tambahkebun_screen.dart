@@ -19,7 +19,7 @@ class _TambahKebunState extends State<TambahKebun>{
   @override
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
-    final double widht = MediaQuery.of(context).size.width;
+    final double width = MediaQuery.of(context).size.width;
     return ChangeNotifierProvider<TambahkebunViewModel>(
         create: (context) => TambahkebunViewModel(context),
         child: Builder(builder: (context) {
@@ -32,10 +32,10 @@ class _TambahKebunState extends State<TambahKebun>{
                     backgroundColor: Colors.green,
                     title: Text('Tambah Kebun'),
                     bottom: PreferredSize(
-                      preferredSize: Size(height*0.15, widht*0.15),
+                      preferredSize: Size(height*0.15, width*0.15),
                       child: Container(
                         color: Colors.white,
-                        width: widht,
+                        width: width,
                         child: TabBar(
                           indicatorColor: Color.fromARGB(255, 4, 158, 83),
                           tabs: [
@@ -152,7 +152,7 @@ class _TambahKebunState extends State<TambahKebun>{
                                     ),
                                   ),
                                   SizedBox(
-                                      width: widht*0.01
+                                      width: width*0.01
                                   ),
                                   Expanded(
                                     child: Column(
@@ -449,7 +449,7 @@ class _TambahKebunState extends State<TambahKebun>{
                                         Navigator.pop(context);
                                       },
                                       style: OutlinedButton.styleFrom(
-                                        fixedSize: Size(widht*0.45, height*0.06),
+                                        fixedSize: Size(width*0.45, height*0.06),
                                         shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.circular(50)),
                                         side: BorderSide(color: Colors.deepOrange),
@@ -468,7 +468,7 @@ class _TambahKebunState extends State<TambahKebun>{
                                       });
                                     },
                                     child: Container(
-                                      width: widht*0.45,
+                                      width: width*0.45,
                                       height: height*0.06,
                                       decoration: BoxDecoration(
                                           gradient: LinearGradient(

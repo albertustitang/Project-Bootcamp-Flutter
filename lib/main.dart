@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:taniku/View/bottom_navigation.dart';
 import 'package:taniku/View/login_screen.dart';
@@ -6,7 +7,9 @@ import 'package:taniku/View/profile_screen.dart';
 import 'package:taniku/View/signup_screen.dart';
 import 'package:taniku/View/ui_login1.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 

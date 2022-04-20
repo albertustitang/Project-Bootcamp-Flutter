@@ -164,7 +164,7 @@ class _KebunDetailState extends State<KebunDetail> {
                                     ),
                                     SizedBox(height: 10,),
                                     SizedBox(
-                                      height: 150,
+                                      height: 185,
                                       child: ListView.builder(
                                         shrinkWrap: true,
                                         physics: const NeverScrollableScrollPhysics(),
@@ -178,20 +178,18 @@ class _KebunDetailState extends State<KebunDetail> {
                                               children: [
                                                 Icon(Icons.credit_card, size: 50,),
                                                 SizedBox(width: 10,),
-                                                Card(
-                                                    child: SizedBox(
-                                                      height: 55,
-                                                      width: 245,
-                                                      child: Column(
-                                                        mainAxisAlignment: MainAxisAlignment.center,
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                        children: [
-                                                          Text(viewDetailKebun.dataDocument[index].dokumenName.toString()),
-                                                          SizedBox(height: 8,),
-                                                          Text(viewDetailKebun.dataDocument[index].nomor.toString()),
-                                                        ],
-                                                      ),
-                                                    )
+                                                SizedBox(
+                                                  height: 55,
+                                                  width: 245,
+                                                  child: Column(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Text(viewDetailKebun.dataDocument[index].dokumenName.toString()),
+                                                      SizedBox(height: 8,),
+                                                      Text(viewDetailKebun.dataDocument[index].nomor.toString()),
+                                                    ],
+                                                  ),
                                                 ),
 
                                               ],
@@ -218,10 +216,10 @@ class _KebunDetailState extends State<KebunDetail> {
                                     ),
                                     SizedBox(height: 10,),
                                     SizedBox(
-                                      height: 50,
+                                      height: 60,
                                       child: ListView.builder(
-                                        itemCount:
-                                        viewDetailKebun.dataSertif.length,
+                                        physics: NeverScrollableScrollPhysics(),
+                                        itemCount: viewDetailKebun.dataSertif.length,
                                         itemBuilder: (context, index) {
                                           return Container(
                                             child:
@@ -230,20 +228,18 @@ class _KebunDetailState extends State<KebunDetail> {
                                               children: [
                                                 Icon(Icons.credit_card, size: 50,),
                                                 SizedBox(width: 10,),
-                                                Card(
-                                                    child: SizedBox(
-                                                      height: 50,
-                                                      width: 245,
-                                                      child: Column(
-                                                        mainAxisAlignment: MainAxisAlignment.center,
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                        children: [
-                                                          Text(viewDetailKebun.dataSertif[index].sertifikasiName.toString()),
-                                                          SizedBox(height: 8,),
-                                                          Text(viewDetailKebun.dataSertif[index].sertifikasiNo.toString()),
-                                                        ],
-                                                      ),
-                                                    )
+                                                SizedBox(
+                                                  height: 50,
+                                                  width: 245,
+                                                  child: Column(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Text(viewDetailKebun.dataSertif[index].sertifikasiName.toString()),
+                                                      SizedBox(height: 8,),
+                                                      Text(viewDetailKebun.dataSertif[index].sertifikasiNo.toString()),
+                                                    ],
+                                                  ),
                                                 ),
 
                                               ],
