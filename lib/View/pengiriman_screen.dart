@@ -263,7 +263,7 @@ class _PengirimanPagesState extends State<PengirimanPages> {
                                                                                             shadowColor: Colors.transparent),
                                                                                         child: Text('Kembali',
                                                                                           style: TextStyle(
-                                                                                              fontWeight: FontWeight.bold),),
+                                                                                              fontWeight: FontWeight.bold, color: Colors.white),),
                                                                                       ),
                                                                                     ),
                                                                                   ],

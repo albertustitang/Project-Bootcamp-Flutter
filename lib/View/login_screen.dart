@@ -163,12 +163,20 @@ class _LoginScreen1State extends State<LoginScreen1> {
                                 style: TextButton.styleFrom(
                                     backgroundColor: Color(0xff03de37)),
                                 onPressed: () {},
-                                child: Text(
-                                  "Log in with Facebook",
-                                  style: TextStyle(
-                                    color: Colors.black,
+                                child:
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Image.asset("assets/facebook1.png", height: 20, width: 20,),
+                                      SizedBox(width: 16,),
+                                      Text(
+                                        "Log in with Facebook",
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ),
                               ),
                             ),
                             const SizedBox(
@@ -181,12 +189,20 @@ class _LoginScreen1State extends State<LoginScreen1> {
                                 style:
                                 TextButton.styleFrom(backgroundColor: Colors.indigo),
                                 onPressed: () {},
-                                child: Text(
-                                  "Log in with Google ",
-                                  style: TextStyle(
-                                    color: Colors.black,
+                                child:
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Image.asset("assets/google.png",height: 20, width: 20,),
+                                      SizedBox(width: 16,),
+                                      Text(
+                                        "Log in with Google ",
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ),
                               ),
                             ),
                             const SizedBox(

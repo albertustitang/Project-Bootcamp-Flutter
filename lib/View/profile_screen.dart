@@ -125,6 +125,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     appBar: AppBar(
                       backgroundColor: Colors.green,
                       title: Text("Profile"),
+                      actions: [
+                        IconButton(
+                          icon: Icon(Icons.exit_to_app),
+                            onPressed: () {
+                              SharedPreferenceService().removeSharedPref();
+                              Navigator.of(context, rootNavigator: true,).pushAndRemoveUntil(
+                                MaterialPageRoute(builder: (BuildContext context){ return LoginScreen1();
+                                },
+                                ),
+                                    (_) => false,);
+
+                            },
+                        ),
+                      ],
                     ),
                     body: Container(
                       margin: EdgeInsets.all(16),
@@ -143,11 +157,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ],
                                 ),
                                 SizedBox(width: 16,),
-                                Column(
-                                  children: [
-                                    Text(viewModel.dataProfile.nama.toString(), style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),),
-                                  ],
-                                ),
+                                Expanded(
+                                    child:
+                                    Text(viewModel.dataProfile.nama.toString(), style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),)),
                                 SizedBox(width: 98,),
                                 Column(
                                   children: [
@@ -155,15 +167,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       style: ElevatedButton.styleFrom(
                                         primary: Colors.orange
                                       ),
-                                      onPressed: () {
-                                        SharedPreferenceService().removeSharedPref();
-                                        // Navigator.pop(context);
-                                        Navigator.of(context, rootNavigator: true,).pushAndRemoveUntil(
-                                          MaterialPageRoute(builder: (BuildContext context){ return LoginScreen1();
-                                          },
-                                          ),
-                                              (_) => false,);
-                                      },
+                                      onPressed: () {},
                                         child:
                                     Text('>', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
                                     )
@@ -173,9 +177,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                             const SizedBox(height: 16,),
                             Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text("Kebun Saya", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
-                                SizedBox(width: 80,),
                                 ElevatedButton.icon(onPressed: () {
                                   Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
                                       builder: (_) => TambahKebun())

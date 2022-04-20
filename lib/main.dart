@@ -7,6 +7,10 @@ import 'package:taniku/View/profile_screen.dart';
 import 'package:taniku/View/signup_screen.dart';
 import 'package:taniku/View/ui_login1.dart';
 
+import 'View/alamat_screen.dart';
+import 'View/kebun_screen.dart';
+import 'View/tab_controller_screen.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -26,7 +30,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
-      home: const LoginScreen(),
+      home: const TambahKebun(),
     );
   }
 }
