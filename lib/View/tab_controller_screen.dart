@@ -1,69 +1,64 @@
 import 'package:flutter/material.dart';
-
+import 'package:taniku/View/sertifikat_screen.dart';
 import 'alamat_screen.dart';
+import 'bottom_navigation.dart';
+import 'dokumen_screen.dart';
+import 'kebun_screen.dart';
 
-class TabConrollerScreen extends StatefulWidget {
-  const TabConrollerScreen({Key? key}) : super(key: key);
+
+
+class TopBarScreen extends StatefulWidget {
+  const TopBarScreen({Key? key}) : super(key: key);
 
   @override
-  State<TabConrollerScreen> createState() => _TabConrollerScreenState();
+  _TopBarScreenState createState() => _TopBarScreenState();
 }
 
-class _TabConrollerScreenState extends State<TabConrollerScreen> {
+class _TopBarScreenState extends State<TopBarScreen> {
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: DefaultTabController(
         length: 4,
-        child:
-        Scaffold(
-          resizeToAvoidBottomInset: false,
-          body: NestedScrollView(
-          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-            return <Widget>[
-              new SliverAppBar(
-                backgroundColor: Colors.green,
-                title: Text("Tambah Kebun",
-                style: TextStyle(
-                  color: Colors.white,fontWeight: FontWeight.bold
-                ),),
-                pinned: true,
-                floating: true,
-                bottom: TabBar(
-                  indicator: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(16)),
-                    color: Colors.deepOrange), isScrollable: true,
-                  tabs: [
-                    Tab(child: Text("Alamat",
-                      style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold
-                      ),),),
-                    Tab(child: Text("Kebun",
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold
-                      ),),),
-                    Tab(child: Text("Dokumen",
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold
-                      ),),),
-                    Tab(child: Text("Sertifikat",
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold
-                      ),),),
-                  ],
-                  ),
+        child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.green,
+            iconTheme: const IconThemeData(color: Colors.white,),
+            actions: [
+              IconButton(
+                color: Colors.white,
+                icon: const Icon(
+                  Icons.arrow_back_ios,
                 ),
-              ];
-          },
-            body: TabBarView(
-                children: <Widget>[
-                  TambahAlamat(),
-                  TambahAlamat(),
-                  TambahAlamat(),
-                  TambahAlamat(),
-          ]
+                onPressed: () {
+                  print('Back');
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => BotNavBar()));
+                },
+              ),
+            ],
+            title: const Text("Tambah Kebun"),
+            automaticallyImplyLeading: true,
+            bottom: TabBar(
+              labelColor: Colors.white,
+              tabs: [
+                Text("Alamat", style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
+                Text("Kebun", style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
+                Text("Dokumen", style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),),
+                Text("Sertifikasi", style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),),
+              ],
             ),
-        )
-    )
+          ),
+          body: TabBarView(
+              children: [
+                const TambahAlamat(),
+                const TambahKebun(),
+                const TambahDokumen(),
+                const TambahSertifikat(),
+              ]
+          ),
+        ),
+      ),
     );
   }
 }

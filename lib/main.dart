@@ -8,6 +8,7 @@ import 'package:taniku/View/signup_screen.dart';
 import 'package:taniku/View/ui_login1.dart';
 
 import 'View/alamat_screen.dart';
+import 'View/dokumen_screen.dart';
 import 'View/kebun_screen.dart';
 import 'View/tab_controller_screen.dart';
 
@@ -27,10 +28,10 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
 
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.green,
       ),
       debugShowCheckedModeBanner: false,
-      home: const TambahKebun(),
+      home: const LoginScreen(),
     );
   }
 }

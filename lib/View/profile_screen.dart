@@ -8,7 +8,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 import 'package:taniku/Service/local/shared_pref_service.dart';
 import 'package:taniku/View/kebunDetail.dart';
-import 'package:taniku/View/tambahkebun_screen.dart';
+import 'package:taniku/View/tab_controller_screen.dart';
 import '../ViewModel/profile_viewmodel.dart';
 import 'login_screen.dart';
 
@@ -182,7 +182,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 Text("Kebun Saya", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
                                 ElevatedButton.icon(onPressed: () {
                                   Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
-                                      builder: (_) => TambahKebun())
+                                      builder: (_) => TopBarScreen())
                                   );
                                 },
                                     icon: Icon(Icons.add),

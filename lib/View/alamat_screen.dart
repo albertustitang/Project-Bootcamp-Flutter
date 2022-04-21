@@ -24,12 +24,8 @@ class _TambahAlamatState extends State<TambahAlamat>{
     return ChangeNotifierProvider<TambahkebunViewModel>(
         create: (context) => TambahkebunViewModel(context),
         child: Builder(builder: (context) {
-          return Consumer<TambahkebunViewModel>(builder: (context, viewAddKebun, child) {
+          return Consumer<TambahkebunViewModel>(builder: (context, viewModel, child) {
             return Scaffold(
-              appBar: AppBar(
-                backgroundColor: Colors.green,
-                title: Text('Alamat'),
-              ),
               body: SingleChildScrollView(
                 child: Container(
                   margin: EdgeInsets.all(14),
@@ -199,7 +195,7 @@ class _TambahAlamatState extends State<TambahAlamat>{
                             isExpanded: true,
                             hint: Text("Provinsi"),
                             value: selectProv,
-                            items: viewAddKebun.listProvinsi.map((item) {
+                            items: viewModel.listProvinsi.map((item) {
                               return DropdownMenuItem(
                                 value: item.provinsiId.toString(),
                                 child: Text(item.provinsiName.toString()),
@@ -212,7 +208,7 @@ class _TambahAlamatState extends State<TambahAlamat>{
                                 selectCamat = null;
                                 selectLurah = null;
                               });
-                              viewAddKebun.getListKabupaten(selectProv, context);
+                              viewModel.getListKabupaten(selectProv, context);
                             },
                           ),
                         ),
@@ -254,11 +250,11 @@ class _TambahAlamatState extends State<TambahAlamat>{
                                 selectKota = newValue!;
                                 selectCamat = null;
                                 selectLurah = null;
-                                viewAddKebun.getListKecamatan(selectKota, context);
+                                viewModel.getListKecamatan(selectKota, context);
                               });
 
                             },
-                            items: viewAddKebun.listKabupaten.map((item) {
+                            items: viewModel.listKabupaten.map((item) {
                               return DropdownMenuItem(
                                 value: item.kabupatenKotaId.toString(),
                                 child: Text(item.kabupatenKotaName.toString()),
@@ -303,11 +299,11 @@ class _TambahAlamatState extends State<TambahAlamat>{
                               setState(() {
                                 selectCamat = newValue!;
                                 selectLurah = null;
-                                viewAddKebun.getListKelurahan(selectCamat, context);
+                                viewModel.getListKelurahan(selectCamat, context);
                               });
 
                             },
-                            items: viewAddKebun.listKecamatan.map((item) {
+                            items: viewModel.listKecamatan.map((item) {
                               return DropdownMenuItem(
                                 value: item.kecamatanId.toString(),
                                 child: Text(item.kecamatanName.toString()),
@@ -355,7 +351,7 @@ class _TambahAlamatState extends State<TambahAlamat>{
                               });
 
                             },
-                            items: viewAddKebun.listKelurahan.map((item) {
+                            items: viewModel.listKelurahan.map((item) {
                               return DropdownMenuItem(
                                 value: item.kelurahanDesaId.toString(),
                                 child: Text(item.kelurahanDesaName.toString()),
@@ -397,7 +393,7 @@ class _TambahAlamatState extends State<TambahAlamat>{
                             hint: Text("Kode Pos"),
                             value: selectLurah,
                             onChanged: null,
-                            items: viewAddKebun.listKelurahan.map((item) {
+                            items: viewModel.listKelurahan.map((item) {
                               return DropdownMenuItem(
                                 value: item.kelurahanDesaId.toString(),
                                 child: Text(item.kodePos.toString()),

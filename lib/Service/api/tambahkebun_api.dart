@@ -4,9 +4,13 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:taniku/Model/response_jenisbibit_model.dart';
+import 'package:taniku/Model/response_jenisdokumen_model.dart';
 import 'package:taniku/Model/response_kabupaten_model.dart';
 import 'package:taniku/Model/response_kecamatan_model.dart';
 import 'package:taniku/Model/response_kelurahan%20_model.dart';
+import 'package:taniku/Model/response_sertifikasi_model.dart';
+import 'package:taniku/Model/response_tipelahan_model.dart';
 import 'package:taniku/Service/local/shared_pref_service.dart';
 
 import 'package:taniku/Model/response_provinsi_model.dart';
@@ -130,7 +134,117 @@ class TambahkebunApi {
       return KelurahanModel.withError("Waktu Habis, Silahkan Coba Kembali");
     }
   }
+
+  Future<JenisBibitModel> getListJenisBibit(BuildContext context) async {
+    var uri = Uri.parse(baseUrl + "api/niaga/listJenisBibit").replace();
+    final tokenLocal = await SharedPreferenceService().getStringSharedPref("token");
+    // final petaniIdLocal = await SharedPreferenceService().getStringSharedPref("petani_id");
+    // final userIdLocal = await SharedPreferenceService().getStringSharedPref("user_id");
+    Map<String, String> headersToken(String token) {
+      return {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token'
+      };
+    }
+    var _body = jsonEncode({});
+    try {
+      final response = await client
+          .get(uri, headers: headersToken(tokenLocal))
+          .timeout(const Duration(seconds: 30));
+      print(response.body);
+      if (response.statusCode == HttpStatus.ok) {
+        return JenisBibitModel.fromJson(jsonDecode(response.body));
+      } else {
+        return JenisBibitModel.withError("Gagal Load Data");
+      }
+    } on TimeoutException catch (_) {
+      return JenisBibitModel.withError("Waktu Habis, Silahkan Coba Kembali");
+    }
   }
+
+  Future<TipeLahanModel> getListTipeLahan(BuildContext context) async {
+    var uri = Uri.parse(baseUrl + "api/niaga/listStatusLahan").replace();
+    final tokenLocal = await SharedPreferenceService().getStringSharedPref("token");
+    Map<String, String> headersToken(String token) {
+      return {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token'
+      };
+    }
+    var _body = jsonEncode({});
+    try {
+      final response = await client
+          .get(uri, headers: headersToken(tokenLocal))
+          .timeout(const Duration(seconds: 30));
+      print(response.body);
+      if (response.statusCode == HttpStatus.ok) {
+        return TipeLahanModel.fromJson(jsonDecode(response.body));
+      } else {
+        return TipeLahanModel.withError("Gagal Load Data");
+      }
+    } on TimeoutException catch (_) {
+      return TipeLahanModel.withError("Waktu Habis, Silahkan Coba Kembali");
+    }
+  }
+
+  Future<JenisDokumenModel> getListDokumen(BuildContext context) async {
+    var uri = Uri.parse(baseUrl + "api/niaga/listJenisDokumen").replace();
+    final tokenLocal = await SharedPreferenceService().getStringSharedPref("token");
+    Map<String, String> headersToken(String token) {
+      return {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token'
+      };
+    }
+    var _body = jsonEncode({});
+    try {
+      final response = await client
+          .get(uri, headers: headersToken(tokenLocal))
+          .timeout(const Duration(seconds: 30));
+      print(response.body);
+      if (response.statusCode == HttpStatus.ok) {
+        return JenisDokumenModel.fromJson(jsonDecode(response.body));
+      } else {
+        return JenisDokumenModel.withError("Gagal Load Data");
+      }
+    } on TimeoutException catch (_) {
+      return JenisDokumenModel.withError("Waktu Habis, Silahkan Coba Kembali");
+    }
+  }
+
+  Future<SertifikasiModel> getListSertifikasi(BuildContext context) async {
+    var uri = Uri.parse(baseUrl + "api/niaga/listSertifikasi").replace();
+    final tokenLocal = await SharedPreferenceService().getStringSharedPref("token");
+    Map<String, String> headersToken(String token) {
+      return {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token'
+      };
+    }
+    var _body = jsonEncode({});
+    try {
+      final response = await client
+          .get(uri, headers: headersToken(tokenLocal))
+          .timeout(const Duration(seconds: 30));
+      print(response.body);
+      if (response.statusCode == HttpStatus.ok) {
+        return SertifikasiModel.fromJson(jsonDecode(response.body));
+      } else {
+        return SertifikasiModel.withError("Gagal Load Data");
+      }
+    } on TimeoutException catch (_) {
+      return SertifikasiModel.withError("Waktu Habis, Silahkan Coba Kembali");
+    }
+  }
+
+
+
+
+}
 
 
 
