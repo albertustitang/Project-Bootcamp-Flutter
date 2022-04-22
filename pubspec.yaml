@@ -40,6 +40,7 @@ dependencies:
   firebase_messaging: ^11.2.13
   firebase_core: ^1.14.0
   image_picker: ^0.8.5
+  sqflite: ^2.0.2
 
 
 

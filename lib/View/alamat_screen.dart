@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:taniku/View/tab_controller_screen.dart';
 import 'package:taniku/ViewModel/tambahkebun_viewmodel.dart';
 
 class TambahAlamat extends StatefulWidget {
@@ -17,6 +16,12 @@ class _TambahAlamatState extends State<TambahAlamat>{
   var selectCamat;
   var selectLurah;
   var selectPos;
+
+  TextEditingController alamat = TextEditingController();
+  TextEditingController RT = TextEditingController();
+  TextEditingController RW = TextEditingController();
+
+
   @override
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
@@ -47,6 +52,7 @@ class _TambahAlamatState extends State<TambahAlamat>{
                         height: height*0.01,
                       ),
                       TextFormField(
+                        controller: alamat,
                         minLines: 3,
                         keyboardType: TextInputType.multiline,
                         maxLines: null,
