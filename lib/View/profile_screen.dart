@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'dart:ui';
-
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -182,7 +181,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 Text("Kebun Saya", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
                                 ElevatedButton.icon(onPressed: () {
                                   Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
-                                      builder: (_) => TopBarScreen())
+                                      builder: (_) => TopBarScreen(
+                                        id: viewModel.dataProfile.userId.toString(),
+                                        petaniID: viewModel.dataProfile.id.toString(),
+                                      ))
                                   );
                                 },
                                     icon: Icon(Icons.add),

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:taniku/ViewModel/tabbar_viewmodel.dart';
 import 'package:taniku/ViewModel/tambahkebun_viewmodel.dart';
 
 class TambahAlamat extends StatefulWidget {
-  const TambahAlamat({ Key? key}) : super(key: key);
+  final id, petaniId;
+  final TabViewModel parentViewModel;
+  const TambahAlamat({ Key? key, required this.parentViewModel, required this.id, required this.petaniId}) : super(key: key);
 
   @override
   State<TambahAlamat> createState() => _TambahAlamatState();
@@ -99,6 +102,7 @@ class _TambahAlamatState extends State<TambahAlamat>{
                                 SizedBox(
                                   height: height*0.05,
                                   child: TextFormField(
+                                    controller: RT,
                                     keyboardType: TextInputType.number,
                                     decoration: const InputDecoration(
                                       contentPadding: EdgeInsets.all(10),
@@ -145,6 +149,7 @@ class _TambahAlamatState extends State<TambahAlamat>{
                                 Container(
                                   height: height*0.05,
                                   child: TextFormField(
+                                    controller: RW,
                                     keyboardType: TextInputType.number,
                                     decoration: const InputDecoration(
                                       contentPadding: EdgeInsets.all(10),
@@ -433,9 +438,17 @@ class _TambahAlamatState extends State<TambahAlamat>{
                               )),
                           InkWell(
                             onTap: () {
-                              setState(() {
-                                _currentTabIndex = 1;
-                              });
+                              widget.parentViewModel.addKebunModel.alamat = alamat.text;
+                              widget.parentViewModel.addKebunModel.rt = RT.text;
+                              widget.parentViewModel.addKebunModel.rw = RW.text;
+                              widget.parentViewModel.addKebunModel.provinsiId = selectProv;
+                              widget.parentViewModel.addKebunModel.kabupatenKotaId = selectKota;
+                              widget.parentViewModel.addKebunModel.kecamatanId = selectCamat;
+                              widget.parentViewModel.addKebunModel.kelurahanId = selectLurah;
+                              widget.parentViewModel.addKebunModel.kodePos = selectPos;
+                              widget.parentViewModel.addKebunModel.userId = widget.id;
+                              widget.parentViewModel.addKebunModel.petaniId = widget.petaniId;
+
                             },
                             child: Container(
                               width: width*0.45,

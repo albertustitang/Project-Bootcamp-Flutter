@@ -1,11 +1,11 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:taniku/ViewModel/tambahkebun_viewmodel.dart';
-import '../Service/local/db.dart';
+import 'package:taniku/ViewModel/tambahsertifikasi_viewmodel.dart';
 import 'edit_sertifikat_screen.dart';
 
 class TambahSertifikat extends StatefulWidget {
@@ -20,8 +20,7 @@ class _TambahSertifikatState extends State<TambahSertifikat> {
 
   TextEditingController nomorsertif = TextEditingController();
   List<Map> listData = [];
-  MyDb myDatabase = MyDb();
-
+  String? fotolokal;
   File? image;
 
   // get value => 'Gallery';
@@ -30,80 +29,53 @@ class _TambahSertifikatState extends State<TambahSertifikat> {
       final image = await ImagePicker().pickImage(source: source);
       if (image == null) return;
       final imageTemp = File(image.path);
+      final fotostring = File(image.path).readAsBytesSync();
+      fotolokal = base64.encode(fotostring);
       setState(() => this.image = imageTemp);
+      print(fotolokal);
     } on PlatformException catch (e) {
       print('Failed to pick image: $e');
     }
   }
-
-  void getData(){
-    Future.delayed(const Duration(milliseconds: 500),() async {
-      listData = await myDatabase.db.rawQuery('SELECT * FROM sertifikat');
-      setState(() { });
-    });
+  final dateController1 = TextEditingController();
+  final dateController2 = TextEditingController();
+  DateTime selectedDate = DateTime.now();
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(1960),
+        lastDate: DateTime(2050));
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        // selectedDate = picked;
+        dateController1.text = DateFormat('yyyy-MM-dd').format(picked);
+      });
+    }
   }
 
-  @override
-  void initState() {
-    myDatabase.open();
-    getData();
-    super.initState();
+  Future<void> _selectDate2(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(1960),
+        lastDate: DateTime(2050));
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        // selectedDate = picked;
+        dateController2.text = DateFormat('yyyy-MM-dd').format(picked);
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final dateController1 = TextEditingController();
-    final dateController2 = TextEditingController();
-    DateTime selectedDate = DateTime.now();
-    Future<void> _selectDate(BuildContext context) async {
-      final DateTime? picked = await showDatePicker(
-          context: context,
-          initialDate: selectedDate,
-          firstDate: DateTime(1960),
-          lastDate: DateTime(2050));
-      if (picked != null && picked != selectedDate) {
-        setState(() {
-          // selectedDate = picked;
-          dateController1.text = DateFormat('yyyy-MM-dd').format(picked);
-        });
-      }
-    }
-
-    Future<void> _selectDate2(BuildContext context) async {
-      final DateTime? picked = await showDatePicker(
-          context: context,
-          initialDate: selectedDate,
-          firstDate: DateTime(1960),
-          lastDate: DateTime(2050));
-      if (picked != null && picked != selectedDate) {
-        setState(() {
-          // selectedDate = picked;
-          dateController2.text = DateFormat('yyyy-MM-dd').format(picked);
-        });
-      }
-    }
-
-    void getData() {
-      Future.delayed(const Duration(milliseconds: 500), () async {
-        listData = await myDatabase.db.rawQuery('SELECT * FROM sertifikat');
-        setState(() {});
-      });
-    }
-
-    @override
-    void initState() {
-      myDatabase.open();
-      getData();
-      super.initState();
-    }
-
     final double height = MediaQuery.of(context).size.height;
-    final double widht = MediaQuery.of(context).size.width;
-
-    return ChangeNotifierProvider<TambahkebunViewModel>(
-      create: (context) => TambahkebunViewModel(context),
+    final double width = MediaQuery.of(context).size.width;
+    return ChangeNotifierProvider<ViewModelTambahSertifikasi>(
+      create: (context) => ViewModelTambahSertifikasi(context),
       child: Builder(builder: (context) {
-        return Consumer<TambahkebunViewModel>(
+        return Consumer<ViewModelTambahSertifikasi>(
             builder: (context, viewModel, child) {
           return Scaffold(
             resizeToAvoidBottomInset: false,
@@ -168,8 +140,8 @@ class _TambahSertifikatState extends State<TambahSertifikat> {
                                 ),
                               ),
                               content: Container(
-                                height: 450,
-                                width:  widht*10,
+                                height: height*0.6,
+                                width:  width*10,
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -224,11 +196,10 @@ class _TambahSertifikatState extends State<TambahSertifikat> {
                                           hint: Text("Pilih Tipe Sertifikat"),
                                           isExpanded: true,
                                           // value: selectedProvinsi,
-                                          items: viewModel.listSertifikat
+                                          items: viewModel.dataSertif
                                               .map((value) {
                                             return DropdownMenuItem(
-                                                value: value.sertifikasiName
-                                                    .toString(),
+                                                value: value.sertifikasiName.toString(),
                                                 child: Text(value
                                                     .sertifikasiName
                                                     .toString()));
@@ -528,7 +499,7 @@ class _TambahSertifikatState extends State<TambahSertifikat> {
                                             ),
                                             Container(
                                               height: height * 0.1,
-                                              width: widht * 0.4,
+                                              width: width * 0.4,
                                               decoration: BoxDecoration(
                                                 color: Colors.transparent,
                                               ),
@@ -605,10 +576,6 @@ class _TambahSertifikatState extends State<TambahSertifikat> {
                                                                             style:
                                                                                 TextStyle(color: Colors.black),
                                                                           ),
-                                                                          // IconButton(
-                                                                          //     onPressed: () {
-                                                                          //       Navigator.of(context).pop();},
-                                                                          //     icon: const Icon(Icons.close, color: Colors.white,))
                                                                         ],
                                                                       ),
                                                                     ),
@@ -728,11 +695,12 @@ class _TambahSertifikatState extends State<TambahSertifikat> {
                                           style: TextStyle(color: Colors.white),
                                         ),
                                         onPressed: () {
-                                          myDatabase.db.rawInsert("INSERT INTO sertifikat (sertifikat_name, nomer_sertifikat) VALUES (?, ?);",
-                                              [tipesertif,nomorsertif.text]);
+                                          viewModel.addSertif(tipesertif, nomorsertif.text, dateController1.text, dateController2.text, fotolokal!, context);
                                           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("New Sertificate Added")));
                                           tipesertif= "";
                                           nomorsertif.text = "";
+                                          dateController1.text = "";
+                                          dateController2.text = "";
                                         },
                                       ),
                                     ),
@@ -748,48 +716,48 @@ class _TambahSertifikatState extends State<TambahSertifikat> {
                       },
                     ),
                   ),
-                  Container(
-                    child: listData.isEmpty
-                        ? const Text("No any Sertificate to show.")
-                        : Column(
-                            children: listData.map((stuone) {
-                              return Card(
-                                child: ListTile(
-                                  leading: const Icon(Icons.people),
-                                  title: Text(stuone["sertifikat_name"]),
-                                  subtitle: Text(
-                                      stuone["nomer_sertifikat"].toString()),
-                                  trailing: Wrap(
-                                    children: [
-                                      IconButton(
-                                          onPressed: () {
-                                            Navigator.push(context, MaterialPageRoute(builder: (BuildContext context){
-                                              return EditSertifikat (id: stuone["id"]);
-                                            })).then((value) {
-                                              getData();
-                                            });
-                                          },
-                                          icon: const Icon(Icons.edit)),
-                                      IconButton(
-                                          onPressed: () async {
-                                            await myDatabase.db.rawDelete(
-                                                "DELETE FROM sertifikat WHERE id = ?",
-                                                [stuone["id"]]);
-                                            print("Data Deleted");
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(const SnackBar(
-                                                    content: const Text(
-                                                        "Data Deleted")));
-                                            getData();
-                                          },
-                                          icon: const Icon(Icons.delete,
-                                              color: Colors.red))
-                                    ],
-                                  ),
-                                ),
-                              );
-                            }).toList(),
-                          ),
+                  SizedBox(height: 16,),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: viewModel.listSertif.length,
+                    itemBuilder: (context,index) {
+                      return Container(
+                        child:
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(viewModel.listSertif[index].nama_sertif.toString(),
+                              style: TextStyle(fontSize: 16, color: Colors.green),),
+                            SizedBox(height: 12,),
+                            Text(viewModel.listSertif[index].no_sertif.toString(),
+                              style: TextStyle(fontSize: 16, color: Colors.grey),),
+                            SizedBox(height: 10,),
+                            Row(
+                              children: [
+                                IconButton(
+                                    onPressed: () {
+                                      Navigator.push(context, MaterialPageRoute(builder: (BuildContext context){
+                                        return EditSertifikat (id: viewModel.listSertif[index].id.toString());
+                                      }));
+                                    },
+                                    icon: const Icon(Icons.edit)),
+                                IconButton(
+                                    onPressed: () {
+                                      viewModel.deleteSertif(viewModel.listSertif[index].id!, context);
+                                    },
+                                    icon: const Icon(Icons.delete,
+                                        color: Colors.red))
+                              ],
+                            ),
+                            Divider(
+                              thickness: 1,
+                              color: Colors.grey,
+                            ),
+                          ],
+                        ),
+                      );
+                    },
                   ),
                   SizedBox(
                     height: 40,

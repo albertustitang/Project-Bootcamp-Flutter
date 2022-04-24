@@ -1,14 +1,19 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:taniku/ViewModel/tambahkebun_viewmodel.dart';
 import 'package:taniku/ViewModel/tambahkebun_viewmodel.dart';
 
 import '../Service/local/db.dart';
+import '../ViewModel/tambahdokumen_viewmodel.dart';
 import '../ViewModel/tambahkebun_viewmodel.dart';
 
 class EditDokumen extends StatefulWidget {
-  int id;
+  final id;
 
    EditDokumen({Key? key, required this.id}) : super(key: key);
 
@@ -19,34 +24,35 @@ class EditDokumen extends StatefulWidget {
 class _EditDokumenState extends State<EditDokumen> {
   var selectDokumen;
   TextEditingController nomordokumen = TextEditingController();
+  String? fotolokal;
+  File? image;
 
-  MyDb myDatabase = MyDb();
 
-  @override
-  void initState() {
-    myDatabase.open();
-    Future.delayed(const Duration(milliseconds: 500), () async {
-      var data = await myDatabase.getDokumenById(widget.id);
-      if (data != null) {
-        selectDokumen = data["dokumen_name"];
-        nomordokumen.text = data["nomer_dokumen"].toString();
-        setState(() {});
-      } else
-        print("no any data in document" + widget.id.toString());
+  Future pickImage(ImageSource source) async {
+    try {
+      final image = await ImagePicker().pickImage(source: source);
+      if (image == null) return;
+      final imageTemp = File(image.path);
+      final fotostring = File(image.path).readAsBytesSync();
+      fotolokal = base64.encode(fotostring);
+      setState(() => this.image = imageTemp);
+    } on PlatformException catch (e) {
+      print('Failed to pick image: $e');
     }
-    );
-    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
-    final double widht = MediaQuery.of(context).size.width;
-    return ChangeNotifierProvider<TambahkebunViewModel>(
-      create: (context) => TambahkebunViewModel(context),
+    final double width = MediaQuery.of(context).size.width;
+    return ChangeNotifierProvider<ViewModelTambahDokumen>(
+      create: (context) => ViewModelTambahDokumen(context),
       child: Builder(builder: (context) {
-        return Consumer<TambahkebunViewModel>(
+        return Consumer<ViewModelTambahDokumen>(
             builder: (context, viewModel, child) {
+              selectDokumen = viewModel.editDokumen1.nama_dokumen.toString();
+              nomordokumen.text = viewModel.editDokumen1.no_dokumen.toString();
+              fotolokal = viewModel.editDokumen1.foto.toString();
               return Scaffold(
                   appBar: AppBar(
                     title: const Text("Edit Document"),
@@ -59,7 +65,7 @@ class _EditDokumenState extends State<EditDokumen> {
                       contentPadding: EdgeInsets.only(top: 0.0),
                       content: Container(
                         width: 400.0,
-                        height: 460.0,
+                        height: 480.0,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -142,7 +148,7 @@ class _EditDokumenState extends State<EditDokumen> {
                                             selectDokumen= newValue!;
                                           });
                                         },
-                                        items: viewModel.listJenisDokumen
+                                        items: viewModel.dataDokumen
                                             .map((value) {
                                           return DropdownMenuItem(
                                             value: value.dokumenName.toString(),
@@ -210,7 +216,7 @@ class _EditDokumenState extends State<EditDokumen> {
                                     Row(
                                       children: [
                                         Card(
-                                          // child:( imageFile==null)?Icon(Icons.filter_drama_sharp, size: 30,): Image.file( File(  imageFile!.path)),
+                                          child:( image==null)?Icon(Icons.filter_drama_sharp, size: 30,): Image.memory(base64Decode(fotolokal!)),
                                         ),
                                         SizedBox(
                                           width: 30,
@@ -240,55 +246,47 @@ class _EditDokumenState extends State<EditDokumen> {
                                     SizedBox(
                                       height: 30,
                                     ),
-                                    Row(
+                                    Column(
                                       children: [
-                                        ElevatedButton(
-                                          onPressed: () => Navigator.pop(
-                                              context, 'Tidak,Ubah'),
-                                          child: Text("Tidak, Ubah"),
-                                          style: ElevatedButton.styleFrom(
-                                            shape: new RoundedRectangleBorder(
-                                              borderRadius:
-                                              BorderRadius.circular(16),
+                                        Row(
+                                          children: [
+                                            ElevatedButton(
+                                              onPressed: () => Navigator.pop(
+                                                  context, 'Tidak,Ubah'),
+                                              child: Text("Tidak, Ubah"),
+                                              style: ElevatedButton.styleFrom(
+                                                shape: new RoundedRectangleBorder(
+                                                  borderRadius:
+                                                  BorderRadius.circular(16),
+                                                ),
+                                                primary: Colors.orange,
+                                                shadowColor: Colors.transparent,
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 15, vertical: 16),
+                                              ),
                                             ),
-                                            primary: Colors.orange,
-                                            shadowColor: Colors.transparent,
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 15, vertical: 16),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: 30,
-                                        ),
-                                        ElevatedButton(
-                                          onPressed: () {
-                                            myDatabase.db.rawInsert(
-                                                "UPDATE dokumen SET dokumen_name = ?, nomer_dokumen = ? WHERE id = ?",
-                                                [
-                                                  selectDokumen,
-                                                  nomordokumen.text,
-                                                  widget.id
-                                                ]);
-
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(const SnackBar(
-                                                content: const Text(
-                                                    "Dokumen Data Updated")));
-
-                                            Navigator.pop(context, 'Benar');
-                                          },
-                                          child: Text("Ya, Benar"),
-                                          style: ElevatedButton.styleFrom(
-                                            shape: new RoundedRectangleBorder(
-                                              borderRadius:
-                                              BorderRadius.circular(16),
+                                            SizedBox(
+                                              width: 30,
                                             ),
-                                            primary: Colors.orange,
-                                            shadowColor: Colors.transparent,
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 15, vertical: 16),
-                                          ),
-                                        )
+                                            ElevatedButton(
+                                              onPressed: () {
+                                                viewModel.editDokumen(widget.id, selectDokumen, nomordokumen.text, fotolokal!, context);
+                                                Navigator.pop(context, 'Benar');
+                                              },
+                                              child: Text("Ya, Benar"),
+                                              style: ElevatedButton.styleFrom(
+                                                shape: new RoundedRectangleBorder(
+                                                  borderRadius:
+                                                  BorderRadius.circular(16),
+                                                ),
+                                                primary: Colors.orange,
+                                                shadowColor: Colors.transparent,
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 15, vertical: 16),
+                                              ),
+                                            )
+                                          ],
+                                        ),
                                       ],
                                     )
                                   ],

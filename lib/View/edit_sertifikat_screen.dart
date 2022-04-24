@@ -1,13 +1,17 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:taniku/ViewModel/tambahkebun_viewmodel.dart';
+import 'package:taniku/ViewModel/tambahsertifikasi_viewmodel.dart';
 
-import '../Service/local/db.dart';
-import '../ViewModel/tambahkebun_viewmodel.dart';
 
 class EditSertifikat extends StatefulWidget {
-  int id;
+  final id;
 
   EditSertifikat({Key? key, required this.id}) : super(key: key);
 
@@ -18,34 +22,38 @@ class EditSertifikat extends StatefulWidget {
 class _EditSertifikatState extends State<EditSertifikat> {
   var tipesertif;
   TextEditingController nomorsertif = TextEditingController();
+  String? fotolokal;
+  File? image;
+  final dateController1 = TextEditingController();
+  final dateController2 = TextEditingController();
 
-  MyDb myDatabase = MyDb();
-
-  @override
-  void initState() {
-    myDatabase.open();
-    Future.delayed(const Duration(milliseconds: 500), () async {
-      var data = await myDatabase.getSertifikatById(widget.id);
-      if (data != null) {
-        tipesertif = data["sertifikat_name"];
-        nomorsertif.text = data["nomer_sertifikat"].toString();
-        setState(() {});
-      } else
-        print("no any data in document" + widget.id.toString());
+  Future pickImage(ImageSource source) async {
+    try {
+      final image = await ImagePicker().pickImage(source: source);
+      if (image == null) return;
+      final imageTemp = File(image.path);
+      final fotostring = File(image.path).readAsBytesSync();
+      fotolokal = base64.encode(fotostring);
+      setState(() => this.image = imageTemp);
+    } on PlatformException catch (e) {
+      print('Failed to pick image: $e');
     }
-    );
-    super.initState();
   }
+
 
   @override
   Widget build(BuildContext context) {
-    // final double height = MediaQuery.of(context).size.height;
-    // final double widht = MediaQuery.of(context).size.width;
-    return ChangeNotifierProvider<TambahkebunViewModel>(
-      create: (context) => TambahkebunViewModel(context),
+    final double height = MediaQuery.of(context).size.height;
+    final double width = MediaQuery.of(context).size.width;
+    return ChangeNotifierProvider<ViewModelTambahSertifikasi>(
+      create: (context) => ViewModelTambahSertifikasi(context),
       child: Builder(builder: (context) {
-        return Consumer<TambahkebunViewModel>(
+        return Consumer<ViewModelTambahSertifikasi>(
             builder: (context, viewModel, child) {
+              tipesertif = viewModel.editSertif.nama_sertif.toString();
+              nomorsertif.text = viewModel.editSertif.no_sertif.toString();
+              dateController1.text = viewModel.editSertif.tanggal_berlaku.toString();
+              dateController2.text = viewModel.editSertif.tanggal_berakhir.toString();
               return Scaffold(
                   appBar: AppBar(
                     title: const Text("Edit Sertifikat"),
@@ -141,7 +149,7 @@ class _EditSertifikatState extends State<EditSertifikat> {
                                             tipesertif= newValue!;
                                           });
                                         },
-                                        items: viewModel.listSertifikat
+                                        items: viewModel.dataSertif
                                             .map((value) {
                                           return DropdownMenuItem(
                                             value: value.sertifikasiName.toString(),
@@ -209,7 +217,7 @@ class _EditSertifikatState extends State<EditSertifikat> {
                                     Row(
                                       children: [
                                         Card(
-                                          // child:( imageFile==null)?Icon(Icons.filter_drama_sharp, size: 30,): Image.file( File(  imageFile!.path)),
+                                          child:( image==null)?Icon(Icons.filter_drama_sharp, size: 30,): Image.memory(base64Decode(fotolokal!)),
                                         ),
                                         SizedBox(
                                           width: 30,
@@ -261,13 +269,7 @@ class _EditSertifikatState extends State<EditSertifikat> {
                                         ),
                                         ElevatedButton(
                                           onPressed: () {
-                                            myDatabase.db.rawInsert(
-                                                "UPDATE sertifikat SET sertifikat_name = ?, nomer_sertifikat = ? WHERE id = ?",
-                                                [
-                                                  tipesertif,
-                                                  nomorsertif.text,
-                                                  widget.id
-                                                ]);
+                                            viewModel.editSertif1(widget.id, tipesertif, nomorsertif.text, dateController1.text, dateController2.text, fotolokal!, context);
 
                                             ScaffoldMessenger.of(context)
                                                 .showSnackBar(const SnackBar(

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -5,8 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:taniku/View/edit_dokumen_screen.dart';
 import '../Service/local/db.dart';
-import '../ViewModel/tambahkebun_viewmodel.dart';
-import 'package:taniku/ViewModel/news_viewmodel.dart';
+import '../ViewModel/tambahdokumen_viewmodel.dart';
 
 class TambahDokumen extends StatefulWidget {
   const TambahDokumen({Key? key}) : super(key: key);
@@ -18,11 +18,10 @@ class TambahDokumen extends StatefulWidget {
 class _TambahDokumenState extends State<TambahDokumen> {
   var selectDokumen;
   TextEditingController nomordokumen = TextEditingController();
-
+  String? fotolokal;
   File? image;
 
   List<Map> listData = [];
-  MyDb myDatabase = MyDb();
 
   // get value => 'Gallery';
   Future pickImage(ImageSource source) async {
@@ -30,34 +29,25 @@ class _TambahDokumenState extends State<TambahDokumen> {
       final image = await ImagePicker().pickImage(source: source);
       if (image == null) return;
       final imageTemp = File(image.path);
+      final fotostring = File(image.path).readAsBytesSync();
+      fotolokal = base64.encode(fotostring);
+      print(fotolokal);
       setState(() => this.image = imageTemp);
     } on PlatformException catch (e) {
       print('Failed to pick image: $e');
     }
   }
 
-  void getData() {
-    Future.delayed(const Duration(milliseconds: 500), () async {
-      listData = await myDatabase.db.rawQuery('SELECT * FROM dokumen');
-      setState(() {});
-    });
-  }
 
-  @override
-  void initState() {
-    myDatabase.open();
-    getData();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
     final double widht = MediaQuery.of(context).size.width;
-    return ChangeNotifierProvider<TambahkebunViewModel>(
-      create: (context) => TambahkebunViewModel(context),
+    return ChangeNotifierProvider<ViewModelTambahDokumen>(
+      create: (context) => ViewModelTambahDokumen(context),
       child: Builder(builder: (context) {
-        return Consumer<TambahkebunViewModel>(
+        return Consumer<ViewModelTambahDokumen>(
             builder: (context, viewModel, child) {
           return Scaffold(
             resizeToAvoidBottomInset: false,
@@ -120,7 +110,7 @@ class _TambahDokumenState extends State<TambahDokumen> {
                                 ),
                               ),
                               content: Container(
-                                height: 320,
+                                height: height*0.4,
                                 width: 400,
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
@@ -168,7 +158,7 @@ class _TambahDokumenState extends State<TambahDokumen> {
                                           hint: Text("Pilih Dokumen"),
                                           isExpanded: true,
                                           value: selectDokumen,
-                                          items: viewModel.listJenisDokumen
+                                          items: viewModel.dataDokumen
                                               .map((value) {
                                             return DropdownMenuItem(
                                                 value: value.dokumenName
@@ -367,7 +357,7 @@ class _TambahDokumenState extends State<TambahDokumen> {
                                                                   content:
                                                                       SizedBox(
                                                                     width: 400,
-                                                                    height: 100,
+                                                                    height: 150,
                                                                     child:
                                                                         Column(
                                                                       mainAxisAlignment:
@@ -479,12 +469,8 @@ class _TambahDokumenState extends State<TambahDokumen> {
                                           style: TextStyle(color: Colors.white),
                                         ),
                                         onPressed: () {
-                                          myDatabase.db.rawInsert(
-                                              "INSERT INTO dokumen (dokumen_name, nomer_dokumen) VALUES (?, ?);",
-                                              [
-                                                selectDokumen,
-                                                nomordokumen.text
-                                              ]);
+                                          viewModel.addDokumen(selectDokumen, nomordokumen.text, fotolokal!, context);
+
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(const SnackBar(
                                                   content: Text(
@@ -506,48 +492,48 @@ class _TambahDokumenState extends State<TambahDokumen> {
                       },
                     ),
                   ),
-                  Container(
-                    child: listData.isEmpty
-                        ? const Text("No any Document to show.")
-                        : Column(
-                            children: listData.map((stuone) {
-                              return Card(
-                                child: ListTile(
-                                  leading: const Icon(Icons.people),
-                                  title: Text(stuone["dokumen_name"]),
-                                  subtitle:
-                                      Text(stuone["nomer_dokumen"].toString()),
-                                  trailing: Wrap(
-                                    children: [
-                                      IconButton(
-                                          onPressed: () {
-                                            Navigator.push(context, MaterialPageRoute(builder: (BuildContext context){
-                                              return EditDokumen (id: stuone["id"]);
-                                            })).then((value) {
-                                              getData();
-                                            });
-                                          },
-                                          icon: const Icon(Icons.edit)),
-                                      IconButton(
-                                          onPressed: () async {
-                                            await myDatabase.db.rawDelete(
-                                                "DELETE FROM dokumen WHERE id = ?",
-                                                [stuone["id"]]);
-                                            print("Data Deleted");
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(const SnackBar(
-                                                    content: const Text(
-                                                        "Data Deleted")));
-                                            getData();
-                                          },
-                                          icon: const Icon(Icons.delete,
-                                              color: Colors.red))
-                                    ],
-                                  ),
-                                ),
-                              );
-                            }).toList(),
-                          ),
+                  SizedBox(height: 16,),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: viewModel.listDokumen.length,
+                    itemBuilder: (context,index) {
+                      return Container(
+                        child:
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(viewModel.listDokumen[index].nama_dokumen.toString(),
+                              style: TextStyle(fontSize: 16, color: Colors.green),),
+                            SizedBox(height: 12,),
+                            Text(viewModel.listDokumen[index].no_dokumen.toString() ,
+                              style: TextStyle(fontSize: 16, color: Colors.grey),),
+                            SizedBox(height: 10,),
+                            Row(
+                              children: [
+                                IconButton(
+                                    onPressed: () {
+                                      Navigator.push(context, MaterialPageRoute(builder: (BuildContext context){
+                                        return EditDokumen (id: viewModel.listDokumen[index].id.toString());
+                                      }));
+                                    },
+                                    icon: const Icon(Icons.edit)),
+                                IconButton(
+                                    onPressed: () {
+                                      viewModel.deleteDokumen(viewModel.listDokumen[index].id!, context);
+                                    },
+                                    icon: const Icon(Icons.delete,
+                                        color: Colors.red))
+                              ],
+                            ),
+                            Divider(
+                              thickness: 1,
+                              color: Colors.grey,
+                            ),
+                          ],
+                        ),
+                      );
+                    },
                   ),
                   SizedBox(
                     height: 40,

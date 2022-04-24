@@ -32,7 +32,7 @@ class PengirimanViewModel extends ChangeNotifier{
   }
 
   void getStockEdit(String noRes, String pabrik_id, String tanggal, String waktu, BuildContext context) async {
-    final response = await _StockEditApi.getStockEdit(noRes,pabrik_id,tanggal,waktu, context);
+    final response = await _StockEditApi.getStockEdit(noRes, pabrik_id, tanggal, waktu, context);
     if (response.error == null) {
       if(response.isSuccess == true) {
       } else {

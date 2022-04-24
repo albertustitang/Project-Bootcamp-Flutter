@@ -28,7 +28,7 @@ class _NewsScreenState extends State<NewsScreen> {
                 return Scaffold(
                   resizeToAvoidBottomInset: false,
                   appBar: AppBar(
-                    backgroundColor: Colors.blue,
+                    backgroundColor: Colors.green,
                     title: const Text("News"),
                   ),
                   body: Container(
