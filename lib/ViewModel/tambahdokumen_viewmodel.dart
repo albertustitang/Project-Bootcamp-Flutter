@@ -50,6 +50,17 @@ class ViewModelTambahDokumen extends ChangeNotifier {
     notifyListeners();
   }
 
+  void getDokumenById(int id, BuildContext context) async{
+    await _dbLocal.open();
+    final response = await _dbLocal.getDokumenById(id, context);
+    if (response != null) {
+      editDokumen1 = response;
+    } else {
+      print("Tidak Ada Data");
+    }
+    notifyListeners();
+  }
+
   void getListDokumen(BuildContext context) async {
     await _dbLocal.open();
     final response = await _dbLocal.getListDokumen(context);

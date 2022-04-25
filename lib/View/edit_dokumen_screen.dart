@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:taniku/ViewModel/editdokumen_viewmodel.dart';
 import 'package:taniku/ViewModel/tambahkebun_viewmodel.dart';
 
 import '../Service/local/db.dart';
@@ -45,14 +46,14 @@ class _EditDokumenState extends State<EditDokumen> {
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
-    return ChangeNotifierProvider<ViewModelTambahDokumen>(
-      create: (context) => ViewModelTambahDokumen(context),
+    return ChangeNotifierProvider<ViewModelEditDokumen>(
+      create: (context) => ViewModelEditDokumen(widget.id, context),
       child: Builder(builder: (context) {
-        return Consumer<ViewModelTambahDokumen>(
+        return Consumer<ViewModelEditDokumen>(
             builder: (context, viewModel, child) {
-              selectDokumen = viewModel.editDokumen1.nama_dokumen.toString();
-              nomordokumen.text = viewModel.editDokumen1.no_dokumen.toString();
-              fotolokal = viewModel.editDokumen1.foto.toString();
+              selectDokumen = viewModel.dataUser.nama_dokumen.toString();
+              nomordokumen.text = viewModel.dataUser.no_dokumen.toString();
+              fotolokal = viewModel.dataUser.foto.toString();
               return Scaffold(
                   appBar: AppBar(
                     title: const Text("Edit Document"),
@@ -123,40 +124,47 @@ class _EditDokumenState extends State<EditDokumen> {
                                     SizedBox(
                                       width: 300,
                                       height: 54,
-                                      child: DropdownButtonFormField(
-                                        decoration: InputDecoration(
-                                          enabledBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Colors.black54, width: 2),
-                                            borderRadius:
-                                            BorderRadius.circular(32),
+                                      child:
+                                        TextFormField(
+                                          decoration:
+                                          InputDecoration(
+                                            hintText: selectDokumen
                                           ),
-                                          border: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Colors.black54, width: 2),
-                                            borderRadius:
-                                            BorderRadius.circular(32),
-                                          ),
-                                          filled: true,
-                                          fillColor: Colors.white,
                                         ),
-                                        dropdownColor: Colors.white,
-                                        value: selectDokumen,
-                                        onChanged: (newValue) {
-                                          setState(() {
-                                            print(newValue.toString());
-                                            selectDokumen= newValue!;
-                                          });
-                                        },
-                                        items: viewModel.dataDokumen
-                                            .map((value) {
-                                          return DropdownMenuItem(
-                                            value: value.dokumenName.toString(),
-                                            child: Text(
-                                                value.dokumenJenis.toString()),
-                                          );
-                                        }).toList(),
-                                      ),
+                                      // DropdownButtonFormField(
+                                      //   decoration: InputDecoration(
+                                      //     enabledBorder: OutlineInputBorder(
+                                      //       borderSide: BorderSide(
+                                      //           color: Colors.black54, width: 2),
+                                      //       borderRadius:
+                                      //       BorderRadius.circular(32),
+                                      //     ),
+                                      //     border: OutlineInputBorder(
+                                      //       borderSide: BorderSide(
+                                      //           color: Colors.black54, width: 2),
+                                      //       borderRadius:
+                                      //       BorderRadius.circular(32),
+                                      //     ),
+                                      //     filled: true,
+                                      //     fillColor: Colors.white,
+                                      //   ),
+                                      //   dropdownColor: Colors.white,
+                                      //   value: selectDokumen,
+                                      //   onChanged: (newValue) {
+                                      //     setState(() {
+                                      //       print(newValue.toString());
+                                      //       selectDokumen= newValue!;
+                                      //     });
+                                      //   },
+                                      //   items: viewModel.dataDokumen
+                                      //       .map((value) {
+                                      //     return DropdownMenuItem(
+                                      //       value: value.dokumenName.toString(),
+                                      //       child: Text(
+                                      //           value.dokumenName.toString()),
+                                      //     );
+                                      //   }).toList(),
+                                      // ),
                                     ),
                                     SizedBox(
                                       height: 16,
@@ -270,7 +278,7 @@ class _EditDokumenState extends State<EditDokumen> {
                                             ),
                                             ElevatedButton(
                                               onPressed: () {
-                                                viewModel.editDokumen(widget.id, selectDokumen, nomordokumen.text, fotolokal!, context);
+                                                viewModel.editUser(widget.id, selectDokumen, nomordokumen.text, fotolokal!, context);
                                                 Navigator.pop(context, 'Benar');
                                               },
                                               child: Text("Ya, Benar"),

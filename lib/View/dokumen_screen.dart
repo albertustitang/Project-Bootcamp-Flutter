@@ -514,7 +514,7 @@ class _TambahDokumenState extends State<TambahDokumen> {
                                 IconButton(
                                     onPressed: () {
                                       Navigator.push(context, MaterialPageRoute(builder: (BuildContext context){
-                                        return EditDokumen (id: viewModel.listDokumen[index].id.toString());
+                                        return EditDokumen (id: int.parse(viewModel.listDokumen[index].id.toString()));
                                       }));
                                     },
                                     icon: const Icon(Icons.edit)),
