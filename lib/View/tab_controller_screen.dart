@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:taniku/View/sertifikat_screen.dart';
 import '../ViewModel/tabbar_viewmodel.dart';
-import '../ViewModel/tambahsertifikasi_viewmodel.dart';
 import 'alamat_screen.dart';
 import 'bottom_navigation.dart';
 import 'dokumen_screen.dart';

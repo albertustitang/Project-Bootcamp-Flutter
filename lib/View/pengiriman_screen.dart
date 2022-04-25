@@ -57,7 +57,7 @@ class _PengirimanPagesState extends State<PengirimanPages> {
                 builder: (context, viewModel, child) {
                   return RefreshIndicator(
                     displacement: 150,
-                    color: Colors.white10,
+                    color: Colors.green,
                     strokeWidth: 5,
                     triggerMode: RefreshIndicatorTriggerMode.onEdge,
                     child: Scaffold(

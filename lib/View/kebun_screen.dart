@@ -400,9 +400,6 @@ class _TambahKebunState extends State<TambahKebun> {
                                 // controller: dataAlamatController,
                                 decoration: const InputDecoration(
                                   hintText: "Jumlah Pohon",
-                                  hintStyle: TextStyle(
-                                    fontFamily: "Poppins",
-                                  ),
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(32)),
@@ -632,22 +629,6 @@ class _TambahKebunState extends State<TambahKebun> {
                                                       thickness: 2,
                                                       color: Colors.red,
                                                     )),
-                                                    // new DropdownButton(
-                                                    //     items: <DropdownMenuItem<int>>[
-                                                    //       new DropdownMenuItem(
-                                                    //         child: new Text('Ambil Gambar dari Gallery'),
-                                                    //         value: 0,
-                                                    //       ),
-                                                    //       new DropdownMenuItem(
-                                                    //         child: new Text('Ambil Gambar dari Camera'),
-                                                    //         value: 1,
-                                                    //       ),
-                                                    //       ],
-                                                    //     onChanged: (value) {
-                                                    //       setState(() {
-                                                    //
-                                                    //       });
-                                                    //     })
                                                     TextButton(
                                                       onPressed: () {
                                                         pickImage(ImageSource
