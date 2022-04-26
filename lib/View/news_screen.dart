@@ -1,11 +1,12 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:taniku/View/Hasil.dart';
 import 'package:taniku/ViewModel/news_viewmodel.dart';
-import 'package:taniku/View/bottom_navigation.dart';
 
 import 'kebunDetail.dart';
 
@@ -17,8 +18,11 @@ class NewsScreen extends StatefulWidget {
 }
 
 class _NewsScreenState extends State<NewsScreen> {
+  Completer<GoogleMapController> _controller = Completer();
   @override
   Widget build(BuildContext context) {
+    final double height = MediaQuery.of(context).size.height;
+    final double width = MediaQuery.of(context).size.width;
     return ChangeNotifierProvider<NewsViewModel>(
       create: (context) => NewsViewModel(context),
       child: Builder(
@@ -192,6 +196,22 @@ class _NewsScreenState extends State<NewsScreen> {
                                                   ],
                                                 ),
                                               ),
+                                                  Container(
+                                                    margin: EdgeInsets.only(left: 10, right: 10),
+                                                    height: height*0.3,
+                                                    width: double.infinity,
+                                                    child: GoogleMap(
+                                                      mapType: MapType.normal,
+                                                      markers: <Marker> {Marker(markerId: const MarkerId("1"),
+                                                          position: LatLng(37.4219532, 122.0839915))},
+                                                      initialCameraPosition: CameraPosition(
+                                                          target: LatLng(37.4219532, 122.0839915), zoom: 15),
+                                                      // onMapCreated: (GoogleMapController controller) {
+                                                      //   _controller.complete(controller);
+                                                      // },
+                                                    ),
+                                                  ),
+                                                  const SizedBox(height: 8,),
                                             ],
                                           ),
                                         ),

@@ -741,7 +741,6 @@ class _TambahKebunState extends State<TambahKebun> {
                                   .jenisBibitId = selectJenisBibit;
                               widget.parentViewModel.addKebunModel
                                   .statusLahanId = selectTipeLahan;
-                              widget.parentViewModel.addKebun(context);
                             },
                           ),
                         ),

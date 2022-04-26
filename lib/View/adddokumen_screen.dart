@@ -446,6 +446,7 @@ class _addDokumenAlertDialogState extends State<addDokumenAlertDialog> {
                           ),
                           onPressed: () {
                             viewModel.addDokumen(selectDokumen, nomordokumen.text, fotolokal!, context);
+                            print(selectDokumen + nomordokumen.text + fotolokal);
 
                             ScaffoldMessenger.of(context)
                                 .showSnackBar(const SnackBar(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:taniku/Model/response_tambahdokumen_model.dart';
+import '../Model/response_addkebun_model.dart';
 import '../Model/response_jenisdokumen_model.dart';
 import '../Service/api/tambahkebun_api.dart';
 import '../Service/local/db.dart';
@@ -11,11 +12,12 @@ class ViewModelTambahDokumen extends ChangeNotifier {
   ListTambahDokumen editDokumen1 = ListTambahDokumen();
   List<DataJenisDokumen> dataDokumen = [];
   List<ListTambahDokumen> listDokumen = [];
-  // List<ListDokumen> addDataDokumen = [];
+  List<ListDokumen> dokumenApi = [];
 
   ViewModelTambahDokumen(BuildContext context) {
     getTambahDokumen(context);
     getListDokumen(context);
+    convertDokumenList(context);
   }
 
   // void getTambahDataDokumen(BuildContext context) async {
@@ -69,6 +71,19 @@ class ViewModelTambahDokumen extends ChangeNotifier {
     } else {
       print("Tidak Ada Data");
     }
+    notifyListeners();
+  }
+
+  convertDokumenList(BuildContext context) async {
+    await _dbLocal.open();
+    final response = await _dbLocal.convertListDokumen();
+    if (response.isNotEmpty) {
+      dokumenApi.clear();
+      dokumenApi = response;
+    } else {
+      print("Tidak ada Data");
+    }
+    print(response.length);
     notifyListeners();
   }
 

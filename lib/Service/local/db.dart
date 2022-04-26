@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:taniku/Model/response_addkebun_model.dart';
 import 'package:taniku/Model/response_jenisdokumen_model.dart';
+import 'package:taniku/Model/response_listsertifikat_model.dart';
 
 import '../../Model/response_tambahdokumen_model.dart';
 import '../../Model/response_tambahsertifikasi_model.dart';
@@ -25,7 +27,7 @@ class MyDb{
                           id integer not null primary key autoincrement,
                           dokumen_name varchar(255) not null,
                           nomor_dokumen varchar(255) not null,
-                          foto varchar(500) not null
+                          foto_dokumen varchar(500) not null
                       );
                       //create more table here
                   ''');
@@ -37,7 +39,7 @@ class MyDb{
                           nomer_sertifikat varchar(255) not null,
                           tanggal_berlaku varchar(255) not null,
                           tanggal_berakhir varchar(255) not null,
-                          foto varchar(500) not null
+                          foto_sertif varchar(500) not null
                       );
                       //create more table here
                   ''');
@@ -55,11 +57,25 @@ class MyDb{
           id: data[i]['id'],
           nama_dokumen: data[i]['dokumen_name'],
           no_dokumen: data[i]['nomor_dokumen'],
-          foto: data[i]['foto'],
+          foto: data[i]['foto_dokumen'],
         );
       });
     }
     return [];
+  }
+
+  Future<List<ListDokumen>> convertListDokumen() async {
+    final List<Map<String, dynamic>> result = await db.query('dokumen', orderBy: 'id');
+    if(result.isNotEmpty) {
+      return List.generate(result.length, (index){
+        return ListDokumen(
+          dokumenId: result[index]['dokumen_name'],
+          nomor: result[index]['nomor_dokumen'],
+          foto: result[index]['foto_dokumen']
+        );
+      });
+    }
+    return[];
   }
 
   Future<ListTambahDokumen?> getDokumenById(int id, BuildContext context) async {
@@ -71,7 +87,7 @@ class MyDb{
         id: maps[0]['id'],
         nama_dokumen: maps[0]['dokumen_name'],
         no_dokumen: maps[0]['nomor_dokumen'],
-        foto: maps[0]['foto'],
+        foto: maps[0]['foto_dokumen'],
       );
     }
     print(maps);
@@ -79,11 +95,11 @@ class MyDb{
   }
 
   addDokumen(String namaDokumen, String noDokumen, String image, BuildContext context) async {
-    await db.rawInsert("INSERT INTO dokumen(dokumen_name, nomor_dokumen, foto) VALUES (?, ?, ?);",
+    await db.rawInsert("INSERT INTO dokumen(dokumen_name, nomor_dokumen, foto_dokumen) VALUES (?, ?, ?);",
         [namaDokumen, noDokumen, image]);
   }
   editDokumen(int id, String namaDokumen, String noDokumen, String image, BuildContext context) async {
-    await db.rawInsert("UPDATE dokumen SET dokumen_name = ?, nomor_dokumen = ?, foto = ? WHERE id = ?",
+    await db.rawInsert("UPDATE dokumen SET dokumen_name = ?, nomor_dokumen = ?, foto_dokumen = ? WHERE id = ?",
         [namaDokumen, noDokumen, image.toString(), id]);
   }
   deleteDokumen(int id, BuildContext context) async {
@@ -101,11 +117,26 @@ class MyDb{
           no_sertif: data[i]['nomer_sertifikat'],
           tanggal_berlaku: data[i]['tanggal_berlaku'],
           tanggal_berakhir: data[i]['tanggal_berakhir'],
-          foto: data[i]['foto'],
+          foto: data[i]['foto_sertif'],
         );
       });
     }
     return [];
+  }
+
+  Future<List<ListSertifikasi>> convertListSertifikat() async {
+    final List<Map<String, dynamic>> result = await db.query('sertifikasi', orderBy: 'id');
+    if(result.isNotEmpty) {
+      return List.generate(result.length, (index){
+        return ListSertifikasi(
+            sertifikasiNo: result[index]['sertifikat_name'],
+            sertifikasiDari: result[index]['tanggal_berlaku'],
+            sertifikasiSampai: result[index]['tanggal_berakhir'],
+            sertifikasiImage: result[index]['foto_sertif']
+        );
+      });
+    }
+    return[];
   }
 
   Future<ListTambahSertif?> getSertifById(int id, BuildContext context) async {
@@ -119,18 +150,18 @@ class MyDb{
         no_sertif: maps[0]['nomer_sertifikat'],
         tanggal_berlaku: maps[0]['tanggal_berlaku'],
         tanggal_berakhir: maps[0]['tanggal_berakhir'],
-        foto: maps[0]['foto'],
+        foto: maps[0]['foto_sertif'],
       );
     }
     return null;
   }
 
   addSertif(String namaSertif, String noSertif, String dateController, String dateController2, String image, BuildContext context) async {
-    await db.rawInsert("INSERT INTO sertifikasi(sertifikat_name, nomer_sertifikat, tanggal_berlaku, tanggal_berakhir, foto) VALUES (?, ?, ?, ?, ?);",
+    await db.rawInsert("INSERT INTO sertifikasi(sertifikat_name, nomer_sertifikat, tanggal_berlaku, tanggal_berakhir, foto_sertif) VALUES (?, ?, ?, ?, ?);",
         [namaSertif, noSertif, dateController, dateController2, image]);
   }
   editSertif(int id, String namaSertif, String noSertif, String dateController, String dateController2, String image, BuildContext context) async {
-    await db.rawInsert("UPDATE sertifikasi SET sertifikat_name = ?, nomer_sertifikat = ?, tanggal_berlaku = ?, tanggal_berakhir = ?, foto = ? WHERE id = ?",
+    await db.rawInsert("UPDATE sertifikasi SET sertifikat_name = ?, nomer_sertifikat = ?, tanggal_berlaku = ?, tanggal_berakhir = ?, foto_sertif = ? WHERE id = ?",
         [namaSertif, noSertif, dateController, dateController2, image.toString(), id]);
   }
   deleteSertif(int id, BuildContext context) async {

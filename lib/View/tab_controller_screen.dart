@@ -82,8 +82,12 @@ class _TopBarScreenState extends State<TopBarScreen> {
                            TambahKebun(
                              parentViewModel: viewModel,
                            ),
-                           TambahDokumen(),
-                           TambahSertifikat(),
+                           TambahDokumen(
+                             parentViewModel: viewModel,
+                           ),
+                           TambahSertifikat(
+                             parentViewModel: viewModel,
+                           ),
                         ]
                     ),
                   ),

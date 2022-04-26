@@ -7,10 +7,13 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:taniku/View/adddokumen_screen.dart';
 import 'package:taniku/View/edit_dokumen_screen.dart';
+import '../ViewModel/tabbar_viewmodel.dart';
 import '../ViewModel/tambahdokumen_viewmodel.dart';
 
 class TambahDokumen extends StatefulWidget {
-  const TambahDokumen({Key? key}) : super(key: key);
+  // final id, petaniId;
+  final TabViewModel parentViewModel;
+   TambahDokumen({Key? key,required this.parentViewModel}) : super(key: key);
 
   @override
   State<TambahDokumen> createState() => _TambahDokumenState();
@@ -177,7 +180,14 @@ class _TambahDokumenState extends State<TambahDokumen> {
                                   'Selanjutnya',
                                   style: TextStyle(color: Colors.white),
                                 ),
-                                onPressed: () {},
+                                onPressed: () async {
+                                  await viewModel.convertDokumenList(context);
+                                  widget.parentViewModel.addKebunModel.listDokumen = viewModel.dokumenApi;
+                                  print(jsonEncode(widget.parentViewModel.addKebunModel));
+                                  print(jsonEncode(viewModel.dokumenApi));
+
+                                  // widget.next.call();
+                                },
                               ),
                             ),
                           ],

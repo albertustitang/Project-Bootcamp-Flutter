@@ -8,14 +8,14 @@ import 'package:provider/provider.dart';
 import 'package:taniku/ViewModel/tambahsertifikasi_viewmodel.dart';
 import 'edit_sertifikat_screen.dart';
 
-class TambahSertifikat extends StatefulWidget {
-  const TambahSertifikat({Key? key}) : super(key: key);
+class addSertifAlertDialog extends StatefulWidget {
+  const addSertifAlertDialog({Key? key}) : super(key: key);
 
   @override
-  State<TambahSertifikat> createState() => _TambahSertifikatState();
+  State<addSertifAlertDialog> createState() => _addSertifAlertDialogState();
 }
 
-class _TambahSertifikatState extends State<TambahSertifikat> {
+class _addSertifAlertDialogState extends State<addSertifAlertDialog> {
   var tipesertif;
 
   TextEditingController nomorsertif = TextEditingController();

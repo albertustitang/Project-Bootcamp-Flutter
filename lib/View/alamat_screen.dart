@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 import 'package:taniku/ViewModel/tabbar_viewmodel.dart';
 import 'package:taniku/ViewModel/tambahkebun_viewmodel.dart';
@@ -23,6 +24,36 @@ class _TambahAlamatState extends State<TambahAlamat>{
   TextEditingController alamat = TextEditingController();
   TextEditingController RT = TextEditingController();
   TextEditingController RW = TextEditingController();
+
+  late bool _serviceEnabled;
+  late PermissionStatus _permissionGranted;
+  LocationData? _userLocation;
+  Future<void> _getUserLocation() async {
+    Location location = Location();
+
+    // Check if location service is enable
+    _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled) {
+        return;
+      }
+    }
+
+    // Check if permission is granted
+    _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        return;
+      }
+    }
+
+    final _locationData = await location.getLocation();
+    setState(() {
+      _userLocation = _locationData;
+    });
+  }
 
 
   @override

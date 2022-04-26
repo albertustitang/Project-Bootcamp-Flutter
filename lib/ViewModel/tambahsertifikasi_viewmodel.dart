@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:taniku/Model/response_addkebun_model.dart';
 import 'package:taniku/Model/response_tambahsertifikasi_model.dart';
 import '../Model/response_sertifikasi_model.dart';
 import '../Service/api/tambahkebun_api.dart';
@@ -11,10 +12,12 @@ class ViewModelTambahSertifikasi extends ChangeNotifier {
   ListTambahSertif editSertif = ListTambahSertif();
   List<DataSertifikat> dataSertif = [];
   List<ListTambahSertif> listSertif = [];
+  List<ListSertifikasi> dokumenApi = [];
 
   ViewModelTambahSertifikasi(BuildContext context) {
     getTambahSertifikasi(context);
     getListSertif(context);
+    convertSertifikasiList(context);
   }
 
   void getTambahSertifikasi(BuildContext context) async {
@@ -41,6 +44,19 @@ class ViewModelTambahSertifikasi extends ChangeNotifier {
     } else {
       print("Tidak Ada Data");
     }
+    notifyListeners();
+  }
+
+  convertSertifikasiList(BuildContext context) async {
+    await _dbLocal.open();
+    final response = await _dbLocal.convertListSertifikat();
+    if (response.isNotEmpty) {
+      dokumenApi.clear();
+      dokumenApi = response;
+    } else {
+      print("Tidak ada Data");
+    }
+    print(response.length);
     notifyListeners();
   }
 

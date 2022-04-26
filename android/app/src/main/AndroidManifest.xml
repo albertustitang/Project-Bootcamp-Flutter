@@ -1,6 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.taniku">
-
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -10,7 +11,9 @@
         android:label="taniku"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
-        <activity
+       <meta-data android:name="com.google.android.geo.API_KEY"
+           android:value="AIzaSyD7JiB-gO1XArR80cAALf-PfOt1isB0MFo"/>
+       <activity
             android:name=".MainActivity"
             android:exported="true"
             android:launchMode="singleTop"
